@@ -3,7 +3,6 @@ import {
   text,
   timestamp,
   boolean,
-  uuid,
 } from "drizzle-orm/pg-core";
 
 /* =========================
@@ -11,7 +10,7 @@ import {
 ========================= */
 
 export const user = pgTable("users", {
-  id: uuid("id").defaultRandom().primaryKey(),
+  id: text("id").primaryKey(),
 
   name: text("name").notNull(),
 
@@ -41,7 +40,7 @@ export const user = pgTable("users", {
 ========================= */
 
 export const session = pgTable("session", {
-  id: uuid("id").defaultRandom().primaryKey(),
+  id: text("id").primaryKey(),
 
   expiresAt: timestamp("expires_at").notNull(),
 
@@ -59,7 +58,7 @@ export const session = pgTable("session", {
 
   userAgent: text("user_agent"),
 
-  userId: uuid("user_id")
+  userId: text("user_id")
     .notNull()
     .references(() => user.id, {
       onDelete: "cascade",
@@ -71,13 +70,13 @@ export const session = pgTable("session", {
 ========================= */
 
 export const account = pgTable("account", {
-  id: uuid("id").defaultRandom().primaryKey(),
+  id: text("id").primaryKey(),
 
   accountId: text("account_id").notNull(),
 
   providerId: text("provider_id").notNull(),
 
-  userId: uuid("user_id")
+  userId: text("user_id")
     .notNull()
     .references(() => user.id, {
       onDelete: "cascade",
@@ -111,7 +110,7 @@ export const account = pgTable("account", {
 ========================= */
 
 export const verification = pgTable("verification", {
-  id: uuid("id").defaultRandom().primaryKey(),
+  id: text("id").primaryKey(),
 
   identifier: text("identifier").notNull(),
 
@@ -133,7 +132,7 @@ export const verification = pgTable("verification", {
 ========================= */
 
 export const organizations = pgTable("organizations", {
-  id: uuid("id").defaultRandom().primaryKey(),
+  id: text("id").primaryKey(),
 
   name: text("name").notNull(),
 
