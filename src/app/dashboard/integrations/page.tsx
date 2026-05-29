@@ -11,50 +11,33 @@ import {
 } from "@/lib/utils";
 import { RefreshCw, Plus } from "lucide-react";
 
-const platforms = [
+const platforms: {
+  key: string;
+  connections: {
+    id: string;
+    clientName: string;
+    status: "healthy" | "degraded" | "broken";
+    lastSyncedAt: Date | null;
+  }[];
+}[] = [
   {
     key: "ga4",
     connections: [
-      {
-        id: "1",
-        clientName: "Acme Corp",
-        status: "healthy" as const,
-        lastSyncedAt: new Date(),
-      },
-      {
-        id: "2",
-        clientName: "Beta Agency",
-        status: "healthy" as const,
-        lastSyncedAt: new Date(),
-      },
+      { id: "1", clientName: "Acme Corp", status: "healthy", lastSyncedAt: new Date() },
+      { id: "2", clientName: "Beta Agency", status: "healthy", lastSyncedAt: new Date() },
     ],
   },
   {
     key: "google_ads",
     connections: [
-      {
-        id: "3",
-        clientName: "Acme Corp",
-        status: "healthy" as const,
-        lastSyncedAt: new Date(),
-      },
+      { id: "3", clientName: "Acme Corp", status: "healthy", lastSyncedAt: new Date() },
     ],
   },
   {
     key: "meta_ads",
     connections: [
-      {
-        id: "4",
-        clientName: "Beta Agency",
-        status: "degraded" as const,
-        lastSyncedAt: new Date(),
-      },
-      {
-        id: "5",
-        clientName: "Gamma Inc",
-        status: "broken" as const,
-        lastSyncedAt: null,
-      },
+      { id: "4", clientName: "Beta Agency", status: "degraded", lastSyncedAt: new Date() },
+      { id: "5", clientName: "Gamma Inc", status: "broken", lastSyncedAt: null },
     ],
   },
   {
