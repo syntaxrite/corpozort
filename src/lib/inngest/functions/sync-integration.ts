@@ -6,9 +6,8 @@ import { getAdapter } from "@/lib/integrations";
 
 export const syncIntegration = inngest.createFunction(
   { id: "sync-integration", name: "Sync Integration" },
-  { cron: "0 */6 * * *" }, // every 6 hours
+  { cron: "0 */6 * * *" },
   async ({ step, logger }) => {
-    // Fetch all active integrations
     const allIntegrations = await step.run(
       "fetch-integrations",
       async () => {
@@ -21,96 +20,89 @@ export const syncIntegration = inngest.createFunction(
 
     logger.info(`Syncing ${allIntegrations.length} integrations`);
 
-    // Sync each integration
     for (const integration of allIntegrations) {
-      await step.run(
-        `sync-${integration.id}`,
-        async () => {
-          try {
-            const adapter = await getAdapter(integration.platform);
+      await step.run(`sync-${integration.id}`, async () => {
+        try {
+          const adapter = await getAdapter(integration.platform);
 
-            // Refresh token if expiring within 10 minutes
-            let accessToken = integration.accessToken;
-            if (
-              integration.refreshToken &&
-              integration.tokenExpiresAt &&
-              integration.tokenExpiresAt.getTime() - Date.now() < 10 * 60 * 1000
-            ) {
-              const refreshed = await adapter.refreshToken(
-                integration.refreshToken
-              );
-              accessToken = refreshed.accessToken;
+          let accessToken = integration.accessToken;
 
-              await db
-                .update(integrations)
-                .set({
-                  accessToken: refreshed.accessToken,
-                  refreshToken: refreshed.refreshToken,
-                  tokenExpiresAt: refreshed.expiresAt,
-                })
-                .where(eq(integrations.id, integration.id));
-            }
-
-            // Fetch metrics for the last 30 days
-            const periodEnd = new Date();
-            const periodStart = new Date();
-            periodStart.setDate(periodStart.getDate() - 30);
-
-            const metrics = await adapter.fetchMetrics(
-              accessToken,
-              periodStart,
-              periodEnd
+          // Refresh token if expiring within 10 minutes
+          if (
+            integration.refreshToken &&
+            integration.tokenExpiresAt &&
+            new Date(integration.tokenExpiresAt).getTime() - Date.now() <
+              10 * 60 * 1000
+          ) {
+            const refreshed = await adapter.refreshToken(
+              integration.refreshToken
             );
+            accessToken = refreshed.accessToken;
 
-            // Write metric snapshots
-            if (metrics.length > 0) {
-              await db.insert(metricSnapshots).values(
-                metrics.map((m) => ({
-                  tenantId: integration.tenantId,
-                  clientId: integration.clientId,
-                  integrationId: integration.id,
-                  metricKey: m.metricKey,
-                  value: m.value,
-                  periodStart: m.periodStart,
-                  periodEnd: m.periodEnd,
-                }))
-              );
-            }
-
-            // Update last synced + mark healthy
             await db
               .update(integrations)
               .set({
-                lastSyncedAt: new Date(),
-                status: "healthy",
+                accessToken: refreshed.accessToken,
+                refreshToken: refreshed.refreshToken,
+                tokenExpiresAt: refreshed.expiresAt,
               })
               .where(eq(integrations.id, integration.id));
-
-          } catch (error) {
-            logger.error(
-              `Failed to sync integration ${integration.id}:`,
-              error
-            );
-
-            // Mark as broken
-            await db
-              .update(integrations)
-              .set({ status: "broken" })
-              .where(eq(integrations.id, integration.id));
-
-            // Trigger failure alert
-            await inngest.send({
-              name: "integration/failure",
-              data: {
-                integrationId: integration.id,
-                tenantId: integration.tenantId,
-                platform: integration.platform,
-                clientId: integration.clientId,
-              },
-            });
           }
+
+          const periodEnd = new Date();
+          const periodStart = new Date();
+          periodStart.setDate(periodStart.getDate() - 30);
+
+          const metrics = await adapter.fetchMetrics(
+            accessToken,
+            periodStart,
+            periodEnd
+          );
+
+          if (metrics.length > 0) {
+            await db.insert(metricSnapshots).values(
+              metrics.map((m) => ({
+                tenantId: integration.tenantId,
+                clientId: integration.clientId,
+                integrationId: integration.id,
+                metricKey: m.metricKey,
+                value: m.value,
+                periodStart: m.periodStart,
+                periodEnd: m.periodEnd,
+              }))
+            );
+          }
+
+          await db
+            .update(integrations)
+            .set({
+              lastSyncedAt: new Date(),
+              status: "healthy",
+            })
+            .where(eq(integrations.id, integration.id));
+
+        } catch (error) {
+          logger.error(
+            `Failed to sync integration ${integration.id}:`,
+            error
+          );
+
+          await db
+            .update(integrations)
+            .set({ status: "broken" })
+            .where(eq(integrations.id, integration.id));
+
+          await inngest.send({
+            name: "integration/failure",
+            data: {
+              integrationId: integration.id,
+              tenantId: integration.tenantId,
+              platform: integration.platform,
+              clientId: integration.clientId,
+            },
+          });
         }
-      );
+      });
     }
 
     return { synced: allIntegrations.length };
