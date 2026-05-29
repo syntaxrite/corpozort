@@ -17,7 +17,7 @@
     "react-dom": "19.2.4",
     "@supabase/supabase-js": "^2",
     "@supabase/ssr": "^0",
-    "drizzle-orm": "^0.44.2",
+    "drizzle-orm": "^0.45.2",
     "postgres": "^3",
     "better-auth": "^1",
     "inngest": "^3",
