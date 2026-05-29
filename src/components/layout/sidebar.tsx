@@ -22,22 +22,22 @@ const navItems = [
   },
   {
     label: "Clients",
-    href: "/clients",
+    href: "/dashboard/clients",
     icon: Users,
   },
   {
     label: "Integrations",
-    href: "/integrations",
+    href: "/dashboard/integrations",
     icon: Plug,
   },
   {
     label: "Reports",
-    href: "/reports",
+    href: "/dashboard/reports",
     icon: FileText,
   },
   {
     label: "Templates",
-    href: "/templates",
+    href: "/dashboard/templates",
     icon: Layout,
   },
 ];
