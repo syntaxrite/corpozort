@@ -3,6 +3,7 @@ import {
   text,
   timestamp,
   boolean,
+  uuid,
 } from "drizzle-orm/pg-core";
 
 /* =========================
@@ -10,15 +11,11 @@ import {
 ========================= */
 
 export const user = pgTable("users", {
-  id: text("id")
-    .$defaultFn(() => crypto.randomUUID())
-    .primaryKey(),
+  id: uuid("id").defaultRandom().primaryKey(),
 
   name: text("name").notNull(),
 
-  email: text("email")
-    .notNull()
-    .unique(),
+  email: text("email").notNull().unique(),
 
   emailVerified: boolean("email_verified")
     .default(false)
@@ -40,20 +37,15 @@ export const user = pgTable("users", {
 });
 
 /* =========================
-   SESSIONS
+   SESSION
 ========================= */
 
 export const session = pgTable("session", {
-  id: text("id")
-    .$defaultFn(() => crypto.randomUUID())
-    .primaryKey(),
+  id: uuid("id").defaultRandom().primaryKey(),
 
-  expiresAt: timestamp("expires_at")
-    .notNull(),
+  expiresAt: timestamp("expires_at").notNull(),
 
-  token: text("token")
-    .notNull()
-    .unique(),
+  token: text("token").notNull().unique(),
 
   createdAt: timestamp("created_at")
     .defaultNow()
@@ -67,7 +59,7 @@ export const session = pgTable("session", {
 
   userAgent: text("user_agent"),
 
-  userId: text("user_id")
+  userId: uuid("user_id")
     .notNull()
     .references(() => user.id, {
       onDelete: "cascade",
@@ -75,21 +67,17 @@ export const session = pgTable("session", {
 });
 
 /* =========================
-   ACCOUNTS
+   ACCOUNT
 ========================= */
 
 export const account = pgTable("account", {
-  id: text("id")
-    .$defaultFn(() => crypto.randomUUID())
-    .primaryKey(),
+  id: uuid("id").defaultRandom().primaryKey(),
 
-  accountId: text("account_id")
-    .notNull(),
+  accountId: text("account_id").notNull(),
 
-  providerId: text("provider_id")
-    .notNull(),
+  providerId: text("provider_id").notNull(),
 
-  userId: text("user_id")
+  userId: uuid("user_id")
     .notNull()
     .references(() => user.id, {
       onDelete: "cascade",
@@ -119,22 +107,17 @@ export const account = pgTable("account", {
 });
 
 /* =========================
-   VERIFICATIONS
+   VERIFICATION
 ========================= */
 
 export const verification = pgTable("verification", {
-  id: text("id")
-    .$defaultFn(() => crypto.randomUUID())
-    .primaryKey(),
+  id: uuid("id").defaultRandom().primaryKey(),
 
-  identifier: text("identifier")
-    .notNull(),
+  identifier: text("identifier").notNull(),
 
-  value: text("value")
-    .notNull(),
+  value: text("value").notNull(),
 
-  expiresAt: timestamp("expires_at")
-    .notNull(),
+  expiresAt: timestamp("expires_at").notNull(),
 
   createdAt: timestamp("created_at")
     .defaultNow()
@@ -150,16 +133,11 @@ export const verification = pgTable("verification", {
 ========================= */
 
 export const organizations = pgTable("organizations", {
-  id: text("id")
-    .$defaultFn(() => crypto.randomUUID())
-    .primaryKey(),
+  id: uuid("id").defaultRandom().primaryKey(),
 
-  name: text("name")
-    .notNull(),
+  name: text("name").notNull(),
 
-  slug: text("slug")
-    .notNull()
-    .unique(),
+  slug: text("slug").notNull().unique(),
 
   createdAt: timestamp("created_at")
     .defaultNow()
