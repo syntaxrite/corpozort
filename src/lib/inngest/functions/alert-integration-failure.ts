@@ -1,6 +1,6 @@
 import { inngest } from "@/lib/inngest/client";
 import { db } from "@/db";
-import { clients, integrations, orgMembers, users } from "@/db/schema";
+import { clients, integrations, orgMembers, user } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { Resend } from "resend";
 import { getPlatformName } from "@/lib/utils";
@@ -14,7 +14,7 @@ export const alertIntegrationFailure = inngest.createFunction(
   },
   { event: "integration/failure" },
   async ({ event, step }) => {
-    const { integrationId, tenantId, platform, clientId } = event.data;
+    const { tenantId, platform, clientId } = event.data;
 
     // Get client name
     const client = await step.run("get-client", async () => {
@@ -29,9 +29,9 @@ export const alertIntegrationFailure = inngest.createFunction(
     // Get agency owner email
     const owner = await step.run("get-owner", async () => {
       const result = await db
-        .select({ email: users.email, name: users.name })
+        .select({ email: user.email, name: user.name })
         .from(orgMembers)
-        .innerJoin(users, eq(users.id, orgMembers.userId))
+        .innerJoin(user, eq(user.id, orgMembers.userId))
         .where(eq(orgMembers.orgId, tenantId))
         .limit(1);
       return result[0];
