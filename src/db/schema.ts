@@ -44,4 +44,9 @@ export const organizations = pgTable("organizations", {
 
   name: text("name").notNull(),
 
-  slug
+  slug: text("slug").notNull().unique(),
+
+  createdAt: timestamp("created_at")
+    .defaultNow()
+    .notNull(),
+});
