@@ -13,10 +13,10 @@ import {
 
 const navItems = [
   { label: "Home", href: "/dashboard", icon: LayoutDashboard },
-  { label: "Clients", href: "/clients", icon: Users },
-  { label: "Integrations", href: "/integrations", icon: Plug },
-  { label: "Reports", href: "/reports", icon: FileText },
-  { label: "Templates", href: "/templates", icon: Layout },
+  { label: "Clients", href: "/dashboard/clients", icon: Users },
+  { label: "Integrations", href: "/dashboard/integrations", icon: Plug },
+  { label: "Reports", href: "/dashboard/reports", icon: FileText },
+  { label: "Templates", href: "/dashboard/templates", icon: Layout },
 ];
 
 export function MobileNav() {
