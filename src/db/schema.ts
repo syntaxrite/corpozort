@@ -36,10 +36,10 @@ export const user = pgTable("users", {
 });
 
 /* =========================
-   ORGANIZATIONS
+   ORGANIZATION
 ========================= */
 
-export const organizations = pgTable("organizations", {
+export const organization = pgTable("organizations", {
   id: text("id").primaryKey(),
 
   name: text("name").notNull(),
@@ -54,10 +54,10 @@ export const organizations = pgTable("organizations", {
 });
 
 /* =========================
-   ORG MEMBERS
+   MEMBER
 ========================= */
 
-export const orgMembers = pgTable("org_members", {
+export const member = pgTable("org_members", {
   id: text("id").primaryKey(),
 
   userId: text("user_id")
@@ -68,7 +68,7 @@ export const orgMembers = pgTable("org_members", {
 
   organizationId: text("organization_id")
     .notNull()
-    .references(() => organizations.id, {
+    .references(() => organization.id, {
       onDelete: "cascade",
     }),
 
