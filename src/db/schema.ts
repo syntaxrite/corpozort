@@ -6,15 +6,19 @@ import {
 } from "drizzle-orm/pg-core";
 
 /* =========================
-   USER
+   USERS
 ========================= */
 
 export const user = pgTable("users", {
-  id: text("id").primaryKey(),
+  id: text("id")
+    .$defaultFn(() => crypto.randomUUID())
+    .primaryKey(),
 
   name: text("name").notNull(),
 
-  email: text("email").notNull().unique(),
+  email: text("email")
+    .notNull()
+    .unique(),
 
   emailVerified: boolean("email_verified")
     .default(false)
@@ -36,59 +40,16 @@ export const user = pgTable("users", {
 });
 
 /* =========================
-   ORGANIZATION
-========================= */
-
-export const organization = pgTable("organizations", {
-  id: text("id").primaryKey(),
-
-  name: text("name").notNull(),
-
-  slug: text("slug")
-    .notNull()
-    .unique(),
-
-  createdAt: timestamp("created_at")
-    .defaultNow()
-    .notNull(),
-});
-
-/* =========================
-   MEMBER
-========================= */
-
-export const member = pgTable("org_members", {
-  id: text("id").primaryKey(),
-
-  userId: text("user_id")
-    .notNull()
-    .references(() => user.id, {
-      onDelete: "cascade",
-    }),
-
-  organizationId: text("organization_id")
-    .notNull()
-    .references(() => organization.id, {
-      onDelete: "cascade",
-    }),
-
-  role: text("role")
-    .default("member")
-    .notNull(),
-
-  createdAt: timestamp("created_at")
-    .defaultNow()
-    .notNull(),
-});
-
-/* =========================
-   SESSION
+   SESSIONS
 ========================= */
 
 export const session = pgTable("session", {
-  id: text("id").primaryKey(),
+  id: text("id")
+    .$defaultFn(() => crypto.randomUUID())
+    .primaryKey(),
 
-  expiresAt: timestamp("expires_at").notNull(),
+  expiresAt: timestamp("expires_at")
+    .notNull(),
 
   token: text("token")
     .notNull()
@@ -114,15 +75,19 @@ export const session = pgTable("session", {
 });
 
 /* =========================
-   ACCOUNT
+   ACCOUNTS
 ========================= */
 
 export const account = pgTable("account", {
-  id: text("id").primaryKey(),
+  id: text("id")
+    .$defaultFn(() => crypto.randomUUID())
+    .primaryKey(),
 
-  accountId: text("account_id").notNull(),
+  accountId: text("account_id")
+    .notNull(),
 
-  providerId: text("provider_id").notNull(),
+  providerId: text("provider_id")
+    .notNull(),
 
   userId: text("user_id")
     .notNull()
@@ -154,23 +119,49 @@ export const account = pgTable("account", {
 });
 
 /* =========================
-   VERIFICATION
+   VERIFICATIONS
 ========================= */
 
 export const verification = pgTable("verification", {
-  id: text("id").primaryKey(),
+  id: text("id")
+    .$defaultFn(() => crypto.randomUUID())
+    .primaryKey(),
 
-  identifier: text("identifier").notNull(),
+  identifier: text("identifier")
+    .notNull(),
 
-  value: text("value").notNull(),
+  value: text("value")
+    .notNull(),
 
-  expiresAt: timestamp("expires_at").notNull(),
+  expiresAt: timestamp("expires_at")
+    .notNull(),
 
   createdAt: timestamp("created_at")
     .defaultNow()
     .notNull(),
 
   updatedAt: timestamp("updated_at")
+    .defaultNow()
+    .notNull(),
+});
+
+/* =========================
+   ORGANIZATIONS
+========================= */
+
+export const organizations = pgTable("organizations", {
+  id: text("id")
+    .$defaultFn(() => crypto.randomUUID())
+    .primaryKey(),
+
+  name: text("name")
+    .notNull(),
+
+  slug: text("slug")
+    .notNull()
+    .unique(),
+
+  createdAt: timestamp("created_at")
     .defaultNow()
     .notNull(),
 });
