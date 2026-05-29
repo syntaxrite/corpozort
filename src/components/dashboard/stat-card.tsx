@@ -1,13 +1,12 @@
 "use client";
 
 import { Card } from "@/components/ui/card";
-import { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface StatCardProps {
   label: string;
   value: string | number;
-  icon: LucideIcon;
+  icon: React.ReactNode; // Was LucideIcon
   trend?: "up" | "down" | "neutral";
   trendLabel?: string;
   className?: string;
@@ -16,7 +15,7 @@ interface StatCardProps {
 export function StatCard({
   label,
   value,
-  icon: Icon,
+  icon,
   trend,
   trendLabel,
   className,
@@ -40,7 +39,7 @@ export function StatCard({
         )}
       </div>
       <div className="rounded-lg bg-indigo-50 p-2">
-        <Icon className="h-5 w-5 text-indigo-600" />
+        {icon}
       </div>
     </Card>
   );
