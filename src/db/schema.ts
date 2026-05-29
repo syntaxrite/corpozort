@@ -1,3 +1,14 @@
+import {
+  pgTable,
+  text,
+  timestamp,
+  boolean,
+} from "drizzle-orm/pg-core";
+
+/* =========================
+   USERS
+========================= */
+
 export const users = pgTable("users", {
   id: text("id").primaryKey(),
 
@@ -23,3 +34,14 @@ export const users = pgTable("users", {
     .defaultNow()
     .notNull(),
 });
+
+/* =========================
+   ORGANIZATIONS
+========================= */
+
+export const organizations = pgTable("organizations", {
+  id: text("id").primaryKey(),
+
+  name: text("name").notNull(),
+
+  slug
