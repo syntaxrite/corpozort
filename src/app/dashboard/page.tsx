@@ -99,24 +99,24 @@ export default function DashboardPage() {
         <StatCard
           label="Clients"
           value={12}
-          icon={Users}
+          icon={<Users />}
         />
         <StatCard
           label="Reports sent"
           value={48}
-          icon={FileText}
+          icon={<FileText />}
           trend="up"
           trendLabel="+8 this month"
         />
         <StatCard
           label="Integrations"
           value={34}
-          icon={Plug}
+          icon={<Plug />}
         />
         <StatCard
           label="Alerts"
           value={brokenCount}
-          icon={AlertTriangle}
+          icon={<AlertTriangle />}
           trend={brokenCount > 0 ? "down" : "neutral"}
           trendLabel={brokenCount > 0 ? "Needs attention" : "All clear"}
         />
@@ -156,4 +156,4 @@ export default function DashboardPage() {
       </Card>
     </div>
   );
-            }
+}
