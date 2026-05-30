@@ -11,6 +11,10 @@ export const metadata: Metadata = {
   title: "Corpozort — Marketing Operations Monitoring",
   description:
     "Monitor your clients' marketing integrations in real time. Get proactive alerts before campaigns break, and auto-generate white-labeled reports.",
+  icons: {
+    icon: "/favicon.svg",
+    apple: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({
