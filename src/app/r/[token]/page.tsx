@@ -2,6 +2,7 @@ import { db } from "@/db";
 import { reports, reportDeliveries, clients, organizations } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
+import Image from "next/image";
 import { formatPeriod } from "@/lib/utils";
 
 interface Props {
@@ -56,10 +57,12 @@ export default async function PublicReportPage({ params }: Props) {
           <div className="flex items-center justify-between">
             <div>
               {org?.logoUrl ? (
-                <img
+                <Image
                   src={org.logoUrl}
                   alt={org.name}
-                  className="h-8 object-contain mb-3"
+                  width={120}
+                  height={32}
+                  className="object-contain mb-3"
                 />
               ) : (
                 <p className="text-lg font-bold text-gray-900 mb-1">
@@ -111,4 +114,4 @@ export default async function PublicReportPage({ params }: Props) {
       </div>
     </div>
   );
-      }
+}
