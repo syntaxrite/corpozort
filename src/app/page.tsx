@@ -164,7 +164,7 @@ const colorClasses = {
   primary: { badge: "bg-[#8B6F47]/10 text-[#8B6F47] border-[#8B6F47]/20", dot: "bg-[#8B6F47]" },
   secondary: { badge: "bg-[#C19A6B]/10 text-[#C19A6B] border-[#C19A6B]/20", dot: "bg-[#C19A6B]" },
   neutral: { badge: "bg-[#A8865B]/10 text-[#7A634E] border-[#A8865B]/20", dot: "bg-[#A8865B]" },
-  alert: { badge: "bg-[#7A5F3D]/10 text-[#7A5F3D] border-[#7A5F3D]/20", dot: "bg-[#7A5F3D]" },
+  alert: { badge: "bg-[#9C5B4E]/10 text-[#9C5B4E] border-[#9C5B4E]/20", dot: "bg-[#9C5B4E]" },
 };
 
 function LiveFeedTicker() {
@@ -265,9 +265,9 @@ function DashboardMockup() {
       {/* Browser chrome */}
       <div className="flex items-center gap-3 px-4 py-3 border-b border-[#D4C4B8] bg-[#E8DFD5]/50">
         <div className="flex gap-1.5">
-          <div className="h-2.5 w-2.5 rounded-full bg-[#C46A5A]/80" />
-          <div className="h-2.5 w-2.5 rounded-full bg-[#D1B16E]/80" />
-          <div className="h-2.5 w-2.5 rounded-full bg-[#7A9B5F]/80" />
+          <div className="h-2.5 w-2.5 rounded-full bg-[#9C5B4E]/80" />
+          <div className="h-2.5 w-2.5 rounded-full bg-[#C19A6B]/80" />
+          <div className="h-2.5 w-2.5 rounded-full bg-[#7D8A5A]/80" />
         </div>
         <div className="flex-1 flex justify-center">
           <div className="bg-[#D4C4B8]/60 rounded-md px-4 py-1 text-[11px] text-[#6B5644] flex items-center gap-1.5">
