@@ -6,11 +6,11 @@ import Image from "next/image";
 import { formatPeriod } from "@/lib/utils";
 
 interface Props {
-  params: { token: string };
+  params: Promise<{ token: string }>;
 }
 
 export default async function PublicReportPage({ params }: Props) {
-  const { token } = params;
+  const { token } = await params;
 
   // Find report by public token
   const report = await db
