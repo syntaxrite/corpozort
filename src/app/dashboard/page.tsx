@@ -2,9 +2,11 @@ import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { StatCard } from "@/components/dashboard/stat-card";
 import { HealthGrid } from "@/components/monitoring/health-grid";
 import { AlertBanner } from "@/components/monitoring/alert-banner";
+import { AnomalyCard } from "@/components/monitoring/anomaly-card";
 import { ClientHealthList } from "@/components/dashboard/client-health-list";
 import { RecentReports } from "@/components/dashboard/recent-reports";
 import { Users, FileText, Plug, AlertTriangle } from "lucide-react";
+import type { AnomalyAlert } from "@/types";
 
 // Placeholder data — replaced with real DB queries in Week 3
 const mockHealth = [
@@ -78,6 +80,29 @@ const mockReports = [
   },
 ];
 
+const mockAnomalies: AnomalyAlert[] = [
+  {
+    clientId: "1",
+    clientName: "Acme Corp",
+    platform: "ga4",
+    metricKey: "sessions",
+    previousValue: 12400,
+    currentValue: 8200,
+    deltaPercent: -33.9,
+    direction: "down",
+  },
+  {
+    clientId: "2",
+    clientName: "Beta Agency",
+    platform: "meta_ads",
+    metricKey: "spend",
+    previousValue: 4200,
+    currentValue: 6100,
+    deltaPercent: 45.2,
+    direction: "up",
+  },
+];
+
 const brokenCount = mockHealth.filter((h) => h.status === "broken").length;
 
 export default function DashboardPage() {
@@ -144,6 +169,20 @@ export default function DashboardPage() {
           </div>
         </Card>
       </div>
+
+      {/* Anomaly alerts */}
+      {mockAnomalies.length > 0 && (
+        <div>
+          <h2 className="text-sm font-semibold text-gray-700 mb-3">
+            Anomalies detected this week
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {mockAnomalies.map((anomaly, i) => (
+              <AnomalyCard key={i} anomaly={anomaly} />
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Recent reports */}
       <Card padding="none">
