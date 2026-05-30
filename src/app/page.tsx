@@ -116,7 +116,7 @@ function LemmingMascot() {
         {/* Lemming body */}
         <div className="w-full h-full bg-[#8B6F47] rounded-full relative shadow-lg">
           {/* Head */}
-          <div className="absolute top-1 left-1/2 -translate-x-1/2 w-6 h-6 bg-[#8B6F47] rounded-full"></div>
+          <div className="absolute top-1 left-1/2 -translate-x-1/2 w-6 h-6 bg-[#A8865B] rounded-full"></div>
           
           {/* Eyes */}
           <div className="absolute top-2 left-3 w-1.5 h-1.5 bg-white rounded-full"></div>
@@ -265,9 +265,9 @@ function DashboardMockup() {
       {/* Browser chrome */}
       <div className="flex items-center gap-3 px-4 py-3 border-b border-[#D4C4B8] bg-[#E8DFD5]/50">
         <div className="flex gap-1.5">
-          <div className="h-2.5 w-2.5 rounded-full bg-[#8B6F47]/70" />
+          <div className="h-2.5 w-2.5 rounded-full bg-[#7A5F3D]/70" />
           <div className="h-2.5 w-2.5 rounded-full bg-[#C19A6B]/70" />
-          <div className="h-2.5 w-2.5 rounded-full bg-[#C19A6B]/70" />
+          <div className="h-2.5 w-2.5 rounded-full bg-[#A8865B]/70" />
         </div>
         <div className="flex-1 flex justify-center">
           <div className="bg-[#D4C4B8]/60 rounded-md px-4 py-1 text-[11px] text-[#6B5644] flex items-center gap-1.5">
