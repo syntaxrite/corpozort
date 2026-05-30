@@ -4,6 +4,7 @@ import { syncIntegration } from "@/lib/inngest/functions/sync-integration";
 import { alertIntegrationFailure } from "@/lib/inngest/functions/alert-integration-failure";
 import { generateReport } from "@/lib/inngest/functions/generate-report";
 import { deliverReport } from "@/lib/inngest/functions/deliver-report";
+import { anomalyDetect } from "@/lib/inngest/functions/anomaly-detect";
 
 export const { GET, POST, PUT } = serve({
   client: inngest,
@@ -12,5 +13,6 @@ export const { GET, POST, PUT } = serve({
     alertIntegrationFailure,
     generateReport,
     deliverReport,
+    anomalyDetect,
   ],
 });
