@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -23,7 +23,7 @@ const blockOptions: { type: BlockType; label: string; description: string }[] = 
   { type: "divider", label: "Divider", description: "Visual separator" },
 ];
 
-export default function NewReportPage() {
+function NewReportContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const clientId = searchParams.get("client") ?? "";
@@ -179,7 +179,7 @@ export default function NewReportPage() {
               </div>
             ) : (
               <div className="space-y-3">
-                {blocks.map((block, index) => (
+                {blocks.map((block) => (
                   <div
                     key={block.id}
                     className="flex items-start gap-2 group"
@@ -231,5 +231,13 @@ export default function NewReportPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function NewReportPage() {
+  return (
+    <Suspense fallback={<div className="p-6 text-sm text-gray-400">Loading...</div>}>
+      <NewReportContent />
+    </Suspense>
   );
 }
