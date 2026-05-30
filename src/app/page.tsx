@@ -766,16 +766,16 @@ export default function RootPage() {
             const Icon = item.icon;
             const borderColor =
               item.color === "red"
-                ? "border-[#7A5F3D]/20"
+                ? "border-[#9C5B4E]/20"
                 : item.color === "amber"
                 ? "border-[#8B6F47]/20"
-                : "border-[#8B6F47]/20";
+                : "border-[#A8865B]/20";
             const iconBg =
               item.color === "red"
-                ? "bg-[#7A5F3D]/10 text-[#7A5F3D]"
+                ? "bg-[#9C5B4E]/10 text-[#9C5B4E]"
                 : item.color === "amber"
                 ? "bg-[#8B6F47]/10 text-[#8B6F47]"
-                : "bg-[#8B6F47]/10 text-[#6B5644]";
+                : "bg-[#A8865B]/10 text-[#6B5644]";
             return (
               <FadeIn key={i} delay={i * 0.1}>
                 <div
