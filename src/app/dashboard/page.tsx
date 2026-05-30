@@ -2,9 +2,11 @@ import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { StatCard } from "@/components/dashboard/stat-card";
 import { HealthGrid } from "@/components/monitoring/health-grid";
 import { AlertBanner } from "@/components/monitoring/alert-banner";
+import { AnomalyCard } from "@/components/monitoring/anomaly-card";
 import { ClientHealthList } from "@/components/dashboard/client-health-list";
 import { RecentReports } from "@/components/dashboard/recent-reports";
 import { Users, FileText, Plug, AlertTriangle } from "lucide-react";
+import type { AnomalyAlert } from "@/types";
 
 // Placeholder data — replaced with real DB queries in Week 3
 const mockHealth = [
@@ -75,6 +77,49 @@ const mockReports = [
     sentAt: null,
     opened: false,
     openCount: 0,
+  },
+];
+
+const mockAnomalies: AnomalyAlert[] = [
+  {
+    clientId: "1",
+    clientName: "Acme Corp",
+    platform: "ga4",
+    metricKey: "sessions",
+    previousValue: 12400,
+    currentValue: 8200,
+    deltaPercent: -33.9,
+    direction: "down",
+  },
+  {
+    clientId: "2",
+    clientName: "Beta Agency",
+    platform: "meta_ads",
+    metricKey: "spend",
+    previousValue: 4200,
+    currentValue: 6100,
+    deltaPercent: 45.2,
+    direction: "up",
+  },
+  {
+    clientId: "3",
+    clientName: "Gamma Inc",
+    platform: "google_ads",
+    metricKey: "clicks",
+    previousValue: 18200,
+    currentValue: 12850,
+    deltaPercent: -29.4,
+    direction: "down",
+  },
+  {
+    clientId: "1",
+    clientName: "Acme Corp",
+    platform: "search_console",
+    metricKey: "impressions",
+    previousValue: 95500,
+    currentValue: 118300,
+    deltaPercent: 23.9,
+    direction: "up",
   },
 ];
 
@@ -154,6 +199,22 @@ export default function DashboardPage() {
           <RecentReports reports={mockReports} />
         </div>
       </Card>
+
+      {mockAnomalies.length > 0 && (
+        <div className="space-y-4">
+          <h2 className="text-lg font-semibold text-gray-900">
+            Anomalies detected this week
+          </h2>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            {mockAnomalies.map((anomaly) => (
+              <AnomalyCard
+                key={`${anomaly.clientId}-${anomaly.platform}-${anomaly.metricKey}`}
+                anomaly={anomaly}
+              />
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
