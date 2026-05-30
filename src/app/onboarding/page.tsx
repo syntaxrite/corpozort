@@ -18,6 +18,7 @@ export default function OnboardingPage() {
   const router = useRouter();
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   // Step 1
   const [agencyName, setAgencyName] = useState("");
@@ -27,21 +28,38 @@ export default function OnboardingPage() {
 
   async function handleStep1() {
     if (!agencyName.trim()) return;
+    setError("");
     setLoading(true);
+
     try {
-      await authClient.organization.create({
-        name: agencyName,
-        slug: agencyName.toLowerCase().replace(/\s+/g, "-"),
+      const slug = agencyName
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, "-")
+        .replace(/[^a-z0-9-]/g, "");
+
+      const { error } = await authClient.organization.create({
+        name: agencyName.trim(),
+        slug: `${slug}-${Date.now()}`, // suffix prevents slug collisions
       });
+
+      if (error) {
+        setError("Could not create agency. Try a different name.");
+        setLoading(false);
+        return;
+      }
+
       setStep(2);
     } catch (e) {
-      console.error(e);
+      setError("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
   }
 
   function handleStep2() {
+    // Client creation wired to DB in Week 3
+    // For now advance to step 3
     setStep(3);
   }
 
@@ -89,7 +107,7 @@ export default function OnboardingPage() {
           ))}
         </div>
 
-        {/* Step 1 */}
+        {/* Step 1 — Agency */}
         {step === 1 && (
           <Card>
             <h2 className="text-lg font-semibold text-gray-900 mb-1">
@@ -104,7 +122,12 @@ export default function OnboardingPage() {
                 label="Agency name"
                 placeholder="Acme Marketing"
                 value={agencyName}
-                onChange={(e) => setAgencyName(e.target.value)}
+                onChange={(e) => {
+                  setAgencyName(e.target.value);
+                  setError("");
+                }}
+                error={error}
+                autoFocus
               />
               <Button
                 className="w-full"
@@ -118,7 +141,7 @@ export default function OnboardingPage() {
           </Card>
         )}
 
-        {/* Step 2 */}
+        {/* Step 2 — First client */}
         {step === 2 && (
           <Card>
             <h2 className="text-lg font-semibold text-gray-900 mb-1">
@@ -134,6 +157,7 @@ export default function OnboardingPage() {
                 placeholder="Client Co."
                 value={clientName}
                 onChange={(e) => setClientName(e.target.value)}
+                autoFocus
               />
               <Button
                 className="w-full"
@@ -153,7 +177,7 @@ export default function OnboardingPage() {
           </Card>
         )}
 
-        {/* Step 3 */}
+        {/* Step 3 — Connect integration */}
         {step === 3 && (
           <Card>
             <h2 className="text-lg font-semibold text-gray-900 mb-1">
@@ -199,4 +223,4 @@ export default function OnboardingPage() {
       </div>
     </div>
   );
-                }
+}
