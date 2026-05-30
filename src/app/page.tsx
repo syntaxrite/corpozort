@@ -93,60 +93,6 @@ function FadeIn({
   );
 }
 
-// ─── LEMMING MASCOT ────────────────────────────────────────────────────────
-
-function LemmingMascot() {
-  const [scrollY, setScrollY] = useState(0);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  return (
-    <motion.div
-      className="fixed right-6 bottom-6 z-40 pointer-events-none"
-      animate={{ y: scrollY }}
-      transition={{ type: "spring", stiffness: 100, damping: 30 }}
-    >
-      <div className="w-16 h-16 relative">
-        {/* Lemming body */}
-        <div className="w-full h-full bg-[#8B6F47] rounded-full relative shadow-lg">
-          {/* Head */}
-          <div className="absolute top-1 left-1/2 -translate-x-1/2 w-6 h-6 bg-[#A8865B] rounded-full"></div>
-          
-          {/* Eyes */}
-          <div className="absolute top-2 left-3 w-1.5 h-1.5 bg-white rounded-full"></div>
-          <div className="absolute top-2 right-3 w-1.5 h-1.5 bg-white rounded-full"></div>
-          
-          {/* Snout */}
-          <div className="absolute top-3.5 left-1/2 -translate-x-1/2 w-2 h-1.5 bg-[#C19A6B] rounded-full"></div>
-          
-          {/* Front paws */}
-          <div className="absolute top-4 left-2 w-1.5 h-3 bg-[#7A5F3D] rounded-full"></div>
-          <div className="absolute top-4 right-2 w-1.5 h-3 bg-[#7A5F3D] rounded-full"></div>
-          
-          {/* Tail */}
-          <div className="absolute bottom-0 right-1 w-2 h-4 bg-[#7A5F3D] rounded-full opacity-70"></div>
-        </div>
-
-        {/* Thought bubble */}
-        <motion.div
-          className="absolute -top-8 left-1/2 -translate-x-1/2 bg-[#F5F0EB]/90 text-[#4A3C30] px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap shadow-md"
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.5 }}
-        >
-          Keep scrolling!
-        </motion.div>
-      </div>
-    </motion.div>
-  );
-}
-
 // ─── LIVE FEED TICKER ────────────────────────────────────────────────────────
 
 const feedEvents = [
@@ -161,18 +107,18 @@ const feedEvents = [
 ];
 
 const colorClasses = {
-  primary: { badge: "bg-[#8B6F47]/10 text-[#8B6F47] border-[#8B6F47]/20", dot: "bg-[#8B6F47]" },
-  secondary: { badge: "bg-[#C19A6B]/10 text-[#C19A6B] border-[#C19A6B]/20", dot: "bg-[#C19A6B]" },
-  neutral: { badge: "bg-[#A8865B]/10 text-[#7A634E] border-[#A8865B]/20", dot: "bg-[#A8865B]" },
-  alert: { badge: "bg-[#9C5B4E]/10 text-[#9C5B4E] border-[#9C5B4E]/20", dot: "bg-[#9C5B4E]" },
+  primary: { badge: "bg-indigo-50 text-indigo-700 border-indigo-100", dot: "bg-indigo-600" },
+  secondary: { badge: "bg-violet-50 text-violet-700 border-violet-100", dot: "bg-violet-500" },
+  neutral: { badge: "bg-slate-50 text-slate-600 border-slate-200", dot: "bg-slate-400" },
+  alert: { badge: "bg-rose-50 text-rose-700 border-rose-100", dot: "bg-rose-500" },
 };
 
 function LiveFeedTicker() {
   const doubled = [...feedEvents, ...feedEvents];
   return (
-    <div className="relative overflow-hidden border-y border-[#D4C4B8]/20 py-3 bg-[#E8DFD5]">
-      <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#E8DFD5] to-transparent z-10 pointer-events-none" />
-      <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#E8DFD5] to-transparent z-10 pointer-events-none" />
+    <div className="relative overflow-hidden border-y border-slate-200 py-3 bg-slate-50">
+      <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-slate-50 to-transparent z-10 pointer-events-none" />
+      <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-slate-50 to-transparent z-10 pointer-events-none" />
       <motion.div
         className="flex gap-3 whitespace-nowrap"
         animate={{ x: ["0%", "-50%"] }}
@@ -233,7 +179,7 @@ function HeroHeadline() {
         "inline-block mr-[0.22em] transition-all duration-500",
         visible ? "opacity-100 translate-y-0 blur-none" : "opacity-0 translate-y-5 blur-sm",
         isAccent &&
-          "bg-gradient-to-r from-[#8B6F47] via-[#A8865B] to-[#C19A6B] bg-clip-text text-transparent"
+          "bg-gradient-to-r from-indigo-600 via-violet-600 to-indigo-500 bg-clip-text text-transparent"
       )}
       style={{ transitionDelay: `${i * 20}ms` }}
     >
@@ -242,7 +188,7 @@ function HeroHeadline() {
   );
 
   return (
-    <h1 className="text-5xl sm:text-6xl lg:text-[5.25rem] font-bold leading-[1.08] tracking-[-0.03em] text-[#4A3C30] mb-7">
+    <h1 className="text-5xl sm:text-6xl lg:text-[5.25rem] font-bold leading-[1.08] tracking-[-0.03em] text-slate-900 mb-7">
       <span className="block">{line1.map((w, i) => word(w, i < v1, i))}</span>
       <span className="block">{line2.map((w, i) => word(w, i < v2, i))}</span>
       <span className="block">{accent.map((w, i) => word(w, i < va, i, true))}</span>
@@ -261,17 +207,17 @@ function DashboardMockup() {
   ];
 
   return (
-    <div className="relative rounded-2xl border border-[#D4C4B8] bg-[#F5F0EB] overflow-hidden shadow-lg">
+    <div className="relative rounded-2xl border border-slate-200 bg-white overflow-hidden shadow-xl">
       {/* Browser chrome */}
-      <div className="flex items-center gap-3 px-4 py-3 border-b border-[#D4C4B8] bg-[#E8DFD5]/50">
+      <div className="flex items-center gap-3 px-4 py-3 border-b border-slate-100 bg-slate-50/50">
         <div className="flex gap-1.5">
-          <div className="h-2.5 w-2.5 rounded-full bg-[#9C5B4E]/80" />
-          <div className="h-2.5 w-2.5 rounded-full bg-[#C19A6B]/80" />
-          <div className="h-2.5 w-2.5 rounded-full bg-[#7D8A5A]/80" />
+          <div className="h-2.5 w-2.5 rounded-full bg-rose-400" />
+          <div className="h-2.5 w-2.5 rounded-full bg-amber-400" />
+          <div className="h-2.5 w-2.5 rounded-full bg-emerald-400" />
         </div>
         <div className="flex-1 flex justify-center">
-          <div className="bg-[#D4C4B8]/60 rounded-md px-4 py-1 text-[11px] text-[#6B5644] flex items-center gap-1.5">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#7D8A5A] inline-block" />
+          <div className="bg-slate-200/60 rounded-md px-4 py-1 text-[11px] text-slate-600 flex items-center gap-1.5">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 inline-block" />
             app.corpozort.tech/dashboard
           </div>
         </div>
@@ -287,12 +233,12 @@ function DashboardMockup() {
             { label: "Integrations", value: "71", icon: Layers, alert: false },
             { label: "Active Alerts", value: "2", icon: Bell, alert: true },
           ].map((s) => (
-            <div key={s.label} className="rounded-xl bg-[#E8DFD5]/60 border border-[#D4C4B8] p-3">
+            <div key={s.label} className="rounded-xl bg-slate-50 border border-slate-100 p-3 text-left">
               <div className="flex items-center justify-between mb-2">
-                <p className="text-[10px] text-[#7A634E]">{s.label}</p>
-                <s.icon className={cn("h-3 w-3", s.alert ? "text-[#9C5B4E]" : "text-[#8A735F]")} />
+                <p className="text-[10px] text-slate-500 font-medium">{s.label}</p>
+                <s.icon className={cn("h-3 w-3", s.alert ? "text-rose-500" : "text-slate-400")} />
               </div>
-              <p className={cn("text-xl font-bold", s.alert ? "text-[#9C5B4E]" : "text-[#4A3C30]")}>
+              <p className={cn("text-xl font-bold", s.alert ? "text-rose-600" : "text-slate-800")}>
                 {s.value}
               </p>
             </div>
@@ -300,10 +246,10 @@ function DashboardMockup() {
         </div>
 
         {/* Health table */}
-        <div className="rounded-xl bg-[#E8DFD5]/40 border border-[#D4C4B8] p-3">
+        <div className="rounded-xl bg-slate-50/50 border border-slate-100 p-3 text-left">
           <div className="flex items-center justify-between mb-3">
-            <p className="text-[11px] font-semibold text-[#6B5644]">Integration Health</p>
-            <span className="text-[10px] text-[#7A634E] flex items-center gap-1">
+            <p className="text-[11px] font-semibold text-slate-700">Integration Health</p>
+            <span className="text-[10px] text-emerald-600 flex items-center gap-1 font-medium">
               <Activity className="h-2.5 w-2.5" /> Live
             </span>
           </div>
@@ -315,18 +261,18 @@ function DashboardMockup() {
                     className={cn(
                       "h-2 w-2 rounded-full shrink-0",
                       c.status === "healthy"
-                        ? "bg-[#7D8A5A]"
+                        ? "bg-emerald-500"
                         : c.status === "degraded"
-                        ? "bg-[#C19A6B] animate-pulse"
-                        : "bg-[#9C5B4E] animate-pulse"
+                        ? "bg-amber-500 animate-pulse"
+                        : "bg-rose-500 animate-pulse"
                     )}
                   />
-                  <span className="text-[12px] text-[#5A4737]">{c.name}</span>
-                  <span className="text-[10px] text-[#7A634E]">{c.platform}</span>
+                  <span className="text-[12px] font-medium text-slate-700">{c.name}</span>
+                  <span className="text-[10px] text-slate-400">{c.platform}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   {c.change !== "-" && (
-                    <span className="text-[10px] text-[#6F7C4E] flex items-center gap-0.5">
+                    <span className="text-[10px] text-emerald-600 flex items-center gap-0.5 font-medium">
                       <TrendingUp className="h-2.5 w-2.5" /> {c.change}
                     </span>
                   )}
@@ -334,10 +280,10 @@ function DashboardMockup() {
                     className={cn(
                       "text-[10px] font-medium px-1.5 py-0.5 rounded-full",
                       c.status === "healthy"
-                        ? "bg-[#7D8A5A]/10 text-[#6F7C4E]"
+                        ? "bg-emerald-50 text-emerald-700"
                         : c.status === "degraded"
-                        ? "bg-[#C19A6B]/10 text-[#8B6F47]"
-                        : "bg-[#9C5B4E]/10 text-[#8A4F44]"
+                        ? "bg-amber-50 text-amber-700"
+                        : "bg-rose-50 text-rose-700"
                     )}
                   >
                     {c.status.charAt(0).toUpperCase() + c.status.slice(1)}
@@ -350,7 +296,7 @@ function DashboardMockup() {
       </div>
 
       {/* Bottom fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-[#F5F0EB] to-transparent pointer-events-none" />
+      <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-white to-transparent pointer-events-none" />
     </div>
   );
 }
@@ -376,14 +322,14 @@ function Nav() {
         className={cn(
           "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
           scrolled
-            ? "bg-[#F5F0EB]/80 backdrop-blur-xl border-b border-[#D4C4B8]/30"
+            ? "bg-white/80 backdrop-blur-xl border-b border-slate-200/50"
             : "bg-transparent"
         )}
       >
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
-            <span className="text-lg font-bold tracking-tight text-[#4A3C30]">
-              Corpo<span className="text-[#8B6F47]">zort</span>
+            <span className="text-lg font-bold tracking-tight text-slate-900">
+              Corpo<span className="text-indigo-600">zort</span>
             </span>
           </Link>
 
@@ -392,7 +338,7 @@ function Nav() {
               <a
                 key={item}
                 href={`#${item.toLowerCase().replace(/ /g, "-")}`}
-                className="text-sm text-[#7A634E] hover:text-[#4A3C30] transition-colors"
+                className="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors"
               >
                 {item}
               </a>
@@ -402,20 +348,20 @@ function Nav() {
           <div className="hidden md:flex items-center gap-3">
             <Link
               href="/login"
-              className="text-sm text-[#7A634E] hover:text-[#4A3C30] transition-colors font-medium"
+              className="text-sm text-slate-600 hover:text-indigo-600 transition-colors font-medium"
             >
               Sign in
             </Link>
             <Link
               href="/signup"
-              className="inline-flex items-center gap-1.5 rounded-lg bg-[#8B6F47] hover:bg-[#7A5F3D] text-white text-sm font-semibold px-4 py-2 transition-all duration-150 active:scale-[0.97]"
+              className="inline-flex items-center gap-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold px-4 py-2 transition-all duration-150 active:scale-[0.97] shadow-sm"
             >
               Get started <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </div>
 
           <button
-            className="md:hidden text-[#7A634E] hover:text-[#4A3C30]"
+            className="md:hidden text-slate-600 hover:text-slate-900"
             onClick={() => setOpen(!open)}
           >
             {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -430,25 +376,25 @@ function Nav() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.18 }}
-            className="fixed top-16 left-0 right-0 z-40 bg-[#F5F0EB]/95 backdrop-blur-xl border-b border-[#D4C4B8]/30 px-6 py-6 flex flex-col gap-4 md:hidden"
+            className="fixed top-16 left-0 right-0 z-40 bg-white/95 backdrop-blur-xl border-b border-slate-200 px-6 py-6 flex flex-col gap-4 md:hidden text-left"
           >
             {["Features", "How it works", "Pricing"].map((item) => (
               <a
                 key={item}
                 href={`#${item.toLowerCase().replace(/ /g, "-")}`}
-                className="text-sm text-[#7A634E] hover:text-[#4A3C30] transition-colors"
+                className="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors"
                 onClick={() => setOpen(false)}
               >
                 {item}
               </a>
             ))}
-            <hr className="border-[#D4C4B8]/30" />
-            <Link href="/login" className="text-sm text-[#7A634E]">
+            <hr className="border-slate-100" />
+            <Link href="/login" className="text-sm font-medium text-slate-600">
               Sign in
             </Link>
             <Link
               href="/signup"
-              className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#8B6F47] text-white text-sm font-semibold px-4 py-2.5"
+              className="inline-flex items-center justify-center gap-2 rounded-lg bg-indigo-600 text-white text-sm font-semibold px-4 py-2.5 shadow-sm"
             >
               Get started <ArrowRight className="h-3.5 w-3.5" />
             </Link>
@@ -601,16 +547,16 @@ function FAQ() {
       {faqs.map((faq, i) => (
         <div
           key={i}
-          className="rounded-xl border border-[#D4C4B8] bg-[#F5F0EB]/60 overflow-hidden"
+          className="rounded-xl border border-slate-200 bg-white overflow-hidden text-left shadow-sm"
         >
           <button
             className="w-full flex items-center justify-between px-5 py-4 text-left"
             onClick={() => setOpen(open === i ? null : i)}
           >
-            <span className="text-sm font-medium text-[#5A4737]">{faq.q}</span>
+            <span className="text-sm font-semibold text-slate-700">{faq.q}</span>
             <ChevronDown
               className={cn(
-                "h-4 w-4 text-[#8A735F] transition-transform duration-200 shrink-0 ml-4",
+                "h-4 w-4 text-slate-400 transition-transform duration-200 shrink-0 ml-4",
                 open === i && "rotate-180"
               )}
             />
@@ -623,7 +569,7 @@ function FAQ() {
                 exit={{ height: 0, opacity: 0 }}
                 transition={{ duration: 0.22, ease: "easeInOut" }}
               >
-                <p className="px-5 pb-4 text-sm text-[#6B5644] leading-relaxed">
+                <p className="px-5 pb-4 text-sm text-slate-600 leading-relaxed">
                   {faq.a}
                 </p>
               </motion.div>
@@ -639,20 +585,19 @@ function FAQ() {
 
 export default function RootPage() {
   return (
-    <div className="bg-[#E8DFD5] text-[#4A3C30]">
+    <div className="bg-slate-50 text-slate-800 antialiased">
       <Nav />
-      <LemmingMascot />
 
       {/* ── HERO ───────────────────────────────────────────────────────── */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
+      <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-white">
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[60%] w-[900px] h-[900px] rounded-full bg-[#C19A6B]/20 blur-[130px]" />
-          <div className="absolute top-1/3 right-1/4 w-[400px] h-[400px] rounded-full bg-[#C19A6B]/15 blur-[90px]" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[60%] w-[900px] h-[900px] rounded-full bg-indigo-500/10 blur-[130px]" />
+          <div className="absolute top-1/3 right-1/4 w-[400px] h-[400px] rounded-full bg-violet-500/10 blur-[90px]" />
           <div
-            className="absolute inset-0 opacity-[0.02]"
+            className="absolute inset-0 opacity-[0.015]"
             style={{
-              backgroundImage: `linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px)`,
+              backgroundImage: `linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px)`,
               backgroundSize: "64px 64px",
             }}
           />
@@ -663,9 +608,9 @@ export default function RootPage() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="inline-flex items-center gap-2 rounded-full bg-[#E8DFD5]/40 border border-[#D4C4B8]/50 px-4 py-1.5 mb-10 backdrop-blur-sm"
+            className="inline-flex items-center gap-2 rounded-full bg-indigo-50 border border-indigo-100 px-4 py-1.5 mb-10 backdrop-blur-sm"
           >
-            <span className="text-xs font-medium text-[#6B5644]">
+            <span className="text-xs font-semibold text-indigo-700">
               Live monitoring for marketing agencies
             </span>
           </motion.div>
@@ -676,7 +621,7 @@ export default function RootPage() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 1.5 }}
-            className="text-lg text-[#6B5644] max-w-xl mx-auto mb-10 leading-relaxed"
+            className="text-lg text-slate-600 max-w-xl mx-auto mb-10 leading-relaxed"
           >
             Corpozort watches your clients&apos; marketing integrations 24/7 — so you
             catch broken campaigns, silent failures, and anomalies before anyone else does.
@@ -690,14 +635,14 @@ export default function RootPage() {
           >
             <Link
               href="/signup"
-              className="group inline-flex items-center gap-2 rounded-xl bg-[#8B6F47] hover:bg-[#7A5F3D] text-white font-semibold px-7 py-3.5 text-base transition-all duration-200 active:scale-[0.97]"
+              className="group inline-flex items-center gap-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-7 py-3.5 text-base transition-all duration-200 active:scale-[0.97] shadow-md shadow-indigo-600/10"
             >
               Start monitoring free
               <ArrowRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
             </Link>
             <Link
               href="/login"
-              className="inline-flex items-center gap-2 rounded-xl bg-[#E8DFD5] hover:bg-[#D4C4B8] border border-[#C19A6B] text-[#4A3C30] font-medium px-7 py-3.5 text-base transition-all duration-200"
+              className="inline-flex items-center gap-2 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-medium px-7 py-3.5 text-base transition-all duration-200"
             >
               Sign in
             </Link>
@@ -707,7 +652,7 @@ export default function RootPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 1.9 }}
-            className="text-xs text-[#7A634E]"
+            className="text-xs font-medium text-slate-400"
           >
             No credit card · Free up to 3 clients · Setup in 2 minutes
           </motion.p>
@@ -715,7 +660,7 @@ export default function RootPage() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 2.1 }}
+            transition={{ duration: 0.5, delay: 2.1 }}
             className="flex flex-wrap items-center justify-center gap-5 mt-10"
           >
             {[
@@ -724,7 +669,7 @@ export default function RootPage() {
               { icon: Globe, label: "4 integrations" },
               { icon: Zap, label: "Instant alerts" },
             ].map(({ icon: Icon, label }) => (
-              <div key={label} className="flex items-center gap-1.5 text-[#7A634E]">
+              <div key={label} className="flex items-center gap-1.5 text-slate-400 font-medium">
                 <Icon className="h-3.5 w-3.5" />
                 <span className="text-xs">{label}</span>
               </div>
@@ -737,7 +682,7 @@ export default function RootPage() {
             transition={{ duration: 0.9, delay: 2.3, ease: [0.22, 1, 0.36, 1] }}
             className="mt-16 relative"
           >
-            <div className="absolute -inset-6 bg-[#C19A6B]/[0.08] rounded-3xl blur-3xl" />
+            <div className="absolute -inset-6 bg-indigo-500/[0.04] rounded-3xl blur-3xl" />
             <DashboardMockup />
           </motion.div>
         </div>
@@ -747,45 +692,41 @@ export default function RootPage() {
       <LiveFeedTicker />
 
       {/* ── PROBLEM ─────────────────────────────────────────────────────── */}
-      <section id="features" className="max-w-6xl mx-auto px-6 py-28">
+      <section id="features" className="max-w-6xl mx-auto px-6 py-28 text-center">
         <FadeIn className="text-center mb-16">
-          <p className="text-xs font-semibold text-[#8B6F47] uppercase tracking-[0.15em] mb-4">
+          <p className="text-xs font-bold text-indigo-600 uppercase tracking-[0.15em] mb-4">
             The problem
           </p>
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#4A3C30] mb-4 tracking-tight">
+          <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4 tracking-tight">
             Agencies lose clients to silent failures
           </h2>
-          <p className="text-[#6B5644] max-w-lg mx-auto text-base">
+          <p className="text-slate-600 max-w-lg mx-auto text-base">
             Every competitor shows you broken data after the fact. Corpozort tells you
             before the report fails.
           </p>
         </FadeIn>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 text-left">
           {problems.map((item, i) => {
             const Icon = item.icon;
             const borderColor =
               item.color === "red"
-                ? "border-[#9C5B4E]/20"
-                : item.color === "amber"
-                ? "border-[#8B6F47]/20"
-                : "border-[#A8865B]/20";
+                ? "border-rose-100"
+                : "border-slate-200";
             const iconBg =
               item.color === "red"
-                ? "bg-[#9C5B4E]/10 text-[#9C5B4E]"
-                : item.color === "amber"
-                ? "bg-[#8B6F47]/10 text-[#8B6F47]"
-                : "bg-[#A8865B]/10 text-[#6B5644]";
+                ? "bg-rose-50 text-rose-600"
+                : "bg-slate-100 text-slate-600";
             return (
               <FadeIn key={i} delay={i * 0.1}>
                 <div
                   className={cn(
-                    "rounded-2xl border bg-[#F5F0EB]/60 p-6 h-full transition-all duration-300 hover:bg-[#F5F0EB]",
+                    "rounded-2xl border bg-white p-6 h-full transition-all duration-300 hover:shadow-md hover:border-slate-300",
                     borderColor
                   )}
                 >
                   {item.tag && (
-                    <span className="inline-block text-[10px] font-semibold uppercase tracking-wider text-[#9C5B4E] bg-[#9C5B4E]/10 border border-[#9C5B4E]/20 rounded-full px-2.5 py-0.5 mb-4">
+                    <span className="inline-block text-[10px] font-bold uppercase tracking-wider text-rose-700 bg-rose-50 border border-rose-100 rounded-full px-2.5 py-0.5 mb-4">
                       {item.tag}
                     </span>
                   )}
@@ -797,8 +738,8 @@ export default function RootPage() {
                   >
                     <Icon className="h-5 w-5" />
                   </div>
-                  <h3 className="text-sm font-semibold text-[#4A3C30] mb-2">{item.title}</h3>
-                  <p className="text-sm text-[#6B5644] leading-relaxed">{item.body}</p>
+                  <h3 className="text-sm font-bold text-slate-900 mb-2">{item.title}</h3>
+                  <p className="text-sm text-slate-600 leading-relaxed">{item.body}</p>
                 </div>
               </FadeIn>
             );
@@ -807,39 +748,39 @@ export default function RootPage() {
       </section>
 
       {/* ── SOLUTION ────────────────────────────────────────────────────── */}
-      <section className="border-y border-[#D4C4B8]/40 bg-[#F5F0EB]/30 py-28">
+      <section className="border-y border-slate-200 bg-slate-50/50 py-28 text-center">
         <div className="max-w-6xl mx-auto px-6">
           <FadeIn className="text-center mb-16">
-            <p className="text-xs font-semibold text-[#8B6F47] uppercase tracking-[0.15em] mb-4">
+            <p className="text-xs font-bold text-indigo-600 uppercase tracking-[0.15em] mb-4">
               The solution
             </p>
-            <h2 className="text-3xl sm:text-4xl font-bold text-[#4A3C30] tracking-tight">
+            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">
               Corpozort fixes all three
             </h2>
           </FadeIn>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 text-left">
             {solutions.map((item, i) => {
               const Icon = item.icon;
               const bg =
                 item.color === "amber"
-                  ? "bg-[#8B6F47]"
+                  ? "bg-amber-500"
                   : item.color === "stone"
-                  ? "bg-[#6B5644]"
-                  : "bg-[#C19A6B]";
+                  ? "bg-slate-700"
+                  : "bg-orange-500";
               return (
                 <FadeIn key={i} delay={i * 0.1}>
-                  <div className="rounded-2xl border border-[#D4C4B8] bg-[#F5F0EB]/80 p-6 h-full hover:border-[#C19A6B] hover:bg-[#F5F0EB] transition-all duration-300">
+                  <div className="rounded-2xl border border-slate-200 bg-white p-6 h-full hover:border-indigo-300 hover:shadow-md transition-all duration-300">
                     <div
                       className={cn(
-                        "rounded-xl w-10 h-10 flex items-center justify-center mb-4",
+                        "rounded-xl w-10 h-10 flex items-center justify-center mb-4 shadow-sm",
                         bg
                       )}
                     >
                       <Icon className="h-5 w-5 text-white" />
                     </div>
-                    <h3 className="text-sm font-semibold text-[#4A3C30] mb-2">{item.title}</h3>
-                    <p className="text-sm text-[#6B5644] leading-relaxed">{item.body}</p>
+                    <h3 className="text-sm font-bold text-slate-900 mb-2">{item.title}</h3>
+                    <p className="text-sm text-slate-600 leading-relaxed">{item.body}</p>
                   </div>
                 </FadeIn>
               );
@@ -849,18 +790,18 @@ export default function RootPage() {
       </section>
 
       {/* ── HOW IT WORKS ────────────────────────────────────────────────── */}
-      <section id="how-it-works" className="max-w-3xl mx-auto px-6 py-28">
+      <section id="how-it-works" className="max-w-3xl mx-auto px-6 py-28 text-center">
         <FadeIn className="text-center mb-16">
-          <p className="text-xs font-semibold text-[#8B6F47] uppercase tracking-[0.15em] mb-4">
+          <p className="text-xs font-bold text-indigo-600 uppercase tracking-[0.15em] mb-4">
             How it works
           </p>
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#4A3C30] tracking-tight">
+          <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">
             Three steps. Then it runs itself.
           </h2>
         </FadeIn>
 
-        <div className="relative">
-          <div className="absolute left-6 top-10 bottom-10 w-px bg-gradient-to-b from-[#8B6F47]/0 via-[#8B6F47]/30 to-[#8B6F47]/0 hidden sm:block" />
+        <div className="relative text-left">
+          <div className="absolute left-6 top-10 bottom-10 w-px bg-gradient-to-b from-indigo-500/0 via-indigo-500/30 to-indigo-500/0 hidden sm:block" />
           <div className="space-y-10">
             {[
               {
@@ -881,14 +822,14 @@ export default function RootPage() {
             ].map((item, i) => (
               <FadeIn key={i} delay={i * 0.12}>
                 <div className="flex gap-6 relative">
-                  <div className="flex-shrink-0 h-12 w-12 rounded-full bg-[#8B6F47] text-white flex items-center justify-center text-sm font-bold z-10 shadow-lg shadow-[#8B6F47]/30">
+                  <div className="flex-shrink-0 h-12 w-12 rounded-full bg-indigo-600 text-white flex items-center justify-center text-sm font-bold z-10 shadow-md shadow-indigo-600/20">
                     {item.step}
                   </div>
                   <div className="pt-2.5">
-                    <h3 className="text-base font-semibold text-[#4A3C30] mb-1.5">
+                    <h3 className="text-base font-bold text-slate-900 mb-1.5">
                       {item.title}
                     </h3>
-                    <p className="text-sm text-[#6B5644] leading-relaxed">{item.body}</p>
+                    <p className="text-sm text-slate-600 leading-relaxed">{item.body}</p>
                   </div>
                 </div>
               </FadeIn>
@@ -898,7 +839,7 @@ export default function RootPage() {
       </section>
 
       {/* ── STATS ───────────────────────────────────────────────────────── */}
-      <section className="border-y border-[#8B6F47]/20 bg-[#8B6F47]/[0.06] py-16">
+      <section className="border-y border-indigo-100 bg-indigo-50/40 py-16 text-center">
         <div className="max-w-4xl mx-auto px-6">
           <div className="grid grid-cols-3 gap-8 text-center">
             {[
@@ -907,10 +848,10 @@ export default function RootPage() {
               { value: 2, suffix: " min", label: "Average setup time" },
             ].map((stat) => (
               <FadeIn key={stat.label}>
-                <p className="text-4xl font-bold text-[#4A3C30] mb-2">
+                <p className="text-4xl font-extrabold text-indigo-900 mb-2">
                   <AnimatedNumber target={stat.value} suffix={stat.suffix} />
                 </p>
-                <p className="text-sm text-[#6B5644]">{stat.label}</p>
+                <p className="text-sm font-medium text-slate-500">{stat.label}</p>
               </FadeIn>
             ))}
           </div>
@@ -918,39 +859,39 @@ export default function RootPage() {
       </section>
 
       {/* ── TESTIMONIALS ────────────────────────────────────────────────── */}
-      <section className="max-w-6xl mx-auto px-6 py-28">
+      <section className="max-w-6xl mx-auto px-6 py-28 text-center">
         <FadeIn className="text-center mb-16">
-          <p className="text-xs font-semibold text-[#8B6F47] uppercase tracking-[0.15em] mb-4">
+          <p className="text-xs font-bold text-indigo-600 uppercase tracking-[0.15em] mb-4">
             From the field
           </p>
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#4A3C30] tracking-tight">
+          <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">
             Agencies that caught it first
           </h2>
         </FadeIn>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 text-left">
           {testimonials.map((t, i) => (
             <FadeIn key={i} delay={i * 0.1}>
-              <div className="rounded-2xl border border-[#D4C4B8] bg-[#F5F0EB]/60 p-6 flex flex-col gap-4 h-full">
+              <div className="rounded-2xl border border-slate-200 bg-white p-6 flex flex-col gap-4 h-full shadow-sm">
                 <div className="flex gap-0.5">
                   {Array(5)
                     .fill(0)
                     .map((_, j) => (
-                      <span key={j} className="text-[#8B6F47] text-sm">
+                      <span key={j} className="text-amber-400 text-sm">
                         ★
                       </span>
                     ))}
                 </div>
-                <p className="text-sm text-[#5A4737] leading-relaxed flex-1 italic">
+                <p className="text-sm text-slate-600 leading-relaxed flex-1 italic">
                   &ldquo;{t.quote}&rdquo;
                 </p>
-                <div className="flex items-center gap-3 pt-2 border-t border-[#D4C4B8]/60">
-                  <div className="h-8 w-8 rounded-full bg-[#8B6F47]/20 border border-[#8B6F47]/30 flex items-center justify-center text-[10px] font-bold text-[#8B6F47]">
+                <div className="flex items-center gap-3 pt-4 border-t border-slate-100">
+                  <div className="h-8 w-8 rounded-full bg-indigo-50 border border-indigo-100 flex items-center justify-center text-[10px] font-bold text-indigo-600">
                     {t.avatar}
                   </div>
                   <div>
-                    <p className="text-xs font-semibold text-[#4A3C30]">{t.name}</p>
-                    <p className="text-[11px] text-[#7A634E]">{t.role}</p>
+                    <p className="text-xs font-bold text-slate-900">{t.name}</p>
+                    <p className="text-[11px] text-slate-400 font-medium">{t.role}</p>
                   </div>
                 </div>
               </div>
@@ -960,52 +901,52 @@ export default function RootPage() {
       </section>
 
       {/* ── PRICING ─────────────────────────────────────────────────────── */}
-      <section id="pricing" className="border-y border-[#D4C4B8]/40 bg-[#F5F0EB]/30 py-28">
+      <section id="pricing" className="border-y border-slate-200 bg-slate-50/50 py-28 text-center">
         <div className="max-w-5xl mx-auto px-6">
           <FadeIn className="text-center mb-16">
-            <p className="text-xs font-semibold text-[#8B6F47] uppercase tracking-[0.15em] mb-4">
+            <p className="text-xs font-bold text-indigo-600 uppercase tracking-[0.15em] mb-4">
               Pricing
             </p>
-            <h2 className="text-3xl sm:text-4xl font-bold text-[#4A3C30] mb-3 tracking-tight">
+            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-3 tracking-tight">
               Flat-rate. No per-client penalties.
             </h2>
-            <p className="text-[#6B5644] text-base">
+            <p className="text-slate-600 text-base">
               Every competitor charges per client. We don&apos;t
             </p>
           </FadeIn>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 items-start">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 items-start text-left">
             {plans.map((plan, i) => (
               <FadeIn key={plan.name} delay={i * 0.1}>
                 <div
                   className={cn(
-                    "rounded-2xl border p-6 flex flex-col transition-all duration-300",
+                    "rounded-2xl border p-6 flex flex-col transition-all duration-300 bg-white",
                     plan.highlight
-                      ? "border-[#8B6F47]/50 bg-[#8B6F47]/[0.08] shadow-lg shadow-[#8B6F47]/10 ring-1 ring-[#8B6F47]/20"
-                      : "border-[#D4C4B8] bg-[#F5F0EB]/60 hover:border-[#C19A6B]"
+                      ? "border-indigo-500 shadow-xl ring-1 ring-indigo-500/20"
+                      : "border-slate-200 hover:border-slate-300 shadow-sm"
                   )}
                 >
                   {plan.highlight && (
-                    <span className="inline-block text-[10px] font-semibold uppercase tracking-wider text-[#8B6F47] bg-[#8B6F47]/10 border border-[#8B6F47]/20 rounded-full px-2.5 py-0.5 mb-4 w-fit">
+                    <span className="inline-block text-[10px] font-bold uppercase tracking-wider text-indigo-700 bg-indigo-50 border border-indigo-100 rounded-full px-2.5 py-0.5 mb-4 w-fit">
                       Most popular
                     </span>
                   )}
-                  <p className="text-sm font-medium text-[#7A634E] mb-1">{plan.name}</p>
-                  <p className="text-4xl font-bold text-[#4A3C30] mb-1">
+                  <p className="text-sm font-semibold text-slate-400 mb-1">{plan.name}</p>
+                  <p className="text-4xl font-extrabold text-slate-900 mb-1">
                     ${plan.price}
-                    <span className="text-sm font-normal text-[#7A634E]">/mo</span>
+                    <span className="text-sm font-normal text-slate-400">/mo</span>
                   </p>
-                  <p className="text-sm text-[#6B5644] mb-6">{plan.desc}</p>
+                  <p className="text-sm text-slate-500 mb-6 font-medium">{plan.desc}</p>
                   <ul className="space-y-2.5 mb-8 flex-1">
                     {plan.features.map((f) => (
                       <li key={f} className="flex items-center gap-2.5 text-sm">
                         <CheckCircle
                           className={cn(
                             "h-4 w-4 shrink-0",
-                            plan.highlight ? "text-[#8B6F47]" : "text-[#7A634E]"
+                            plan.highlight ? "text-indigo-600" : "text-slate-400"
                           )}
                         />
-                        <span className="text-[#5A4737]">{f}</span>
+                        <span className="text-slate-600 font-medium">{f}</span>
                       </li>
                     ))}
                   </ul>
@@ -1014,8 +955,8 @@ export default function RootPage() {
                     className={cn(
                       "w-full text-center rounded-xl py-2.5 text-sm font-semibold transition-all duration-150 active:scale-[0.97]",
                       plan.highlight
-                        ? "bg-[#8B6F47] text-white hover:bg-[#7A5F3D] shadow-lg shadow-[#8B6F47]/25"
-                        : "bg-[#E8DFD5] text-[#4A3C30] hover:bg-[#D4C4B8] border border-[#C19A6B]"
+                        ? "bg-indigo-600 text-white hover:bg-indigo-700 shadow-md shadow-indigo-600/25"
+                        : "bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200"
                     )}
                   >
                     {plan.cta}
@@ -1026,8 +967,8 @@ export default function RootPage() {
           </div>
 
           <FadeIn className="mt-8 text-center">
-            <p className="text-sm text-[#6B5644] flex items-center justify-center gap-2">
-              <Shield className="h-4 w-4 text-[#7A634E]" />
+            <p className="text-sm font-medium text-slate-400 flex items-center justify-center gap-2">
+              <Shield className="h-4 w-4" />
               14-day free trial on all paid plans · No credit card required · Cancel anytime
             </p>
           </FadeIn>
@@ -1035,12 +976,12 @@ export default function RootPage() {
       </section>
 
       {/* ── FAQ ─────────────────────────────────────────────────────────── */}
-      <section className="max-w-2xl mx-auto px-6 py-28">
+      <section className="max-w-2xl mx-auto px-6 py-28 text-center">
         <FadeIn className="text-center mb-12">
-          <p className="text-xs font-semibold text-[#8B6F47] uppercase tracking-[0.15em] mb-4">
+          <p className="text-xs font-bold text-indigo-600 uppercase tracking-[0.15em] mb-4">
             FAQ
           </p>
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#4A3C30] tracking-tight">
+          <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">
             Common questions
           </h2>
         </FadeIn>
@@ -1050,46 +991,46 @@ export default function RootPage() {
       </section>
 
       {/* ── FINAL CTA ───────────────────────────────────────────────────── */}
-      <section className="relative py-32 overflow-hidden border-t border-[#D4C4B8]/40">
+      <section className="relative py-32 overflow-hidden border-t border-slate-200 bg-white text-center">
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full bg-[#C19A6B]/15 blur-[120px]" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full bg-indigo-500/5 blur-[120px]" />
           <div
-            className="absolute inset-0 opacity-[0.02]"
+            className="absolute inset-0 opacity-[0.015]"
             style={{
-              backgroundImage: `linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px)`,
+              backgroundImage: `linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px)`,
               backgroundSize: "64px 64px",
             }}
           />
         </div>
 
         <FadeIn className="relative max-w-3xl mx-auto px-6 text-center">
-          <div className="inline-flex items-center gap-2 rounded-full bg-[#E8DFD5]/40 border border-[#D4C4B8]/50 px-4 py-1.5 mb-8">
-            <span className="text-xs text-[#6B5644]">
+          <div className="inline-flex items-center gap-2 rounded-full bg-indigo-50 border border-indigo-100 px-4 py-1.5 mb-8">
+            <span className="text-xs font-semibold text-indigo-700">
               Join agencies already monitoring
             </span>
           </div>
 
-          <h2 className="text-4xl sm:text-5xl font-bold text-[#4A3C30] mb-5 tracking-tight">
+          <h2 className="text-4xl sm:text-5xl font-bold text-slate-900 mb-5 tracking-tight">
             Stop losing clients to <br />
-            <span className="bg-gradient-to-r from-[#8B6F47] via-[#A8865B] to-[#C19A6B] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-indigo-600 via-violet-600 to-indigo-500 bg-clip-text text-transparent">
               silent failures
             </span>
           </h2>
-          <p className="text-[#6B5644] mb-10 text-lg max-w-md mx-auto">
+          <p className="text-slate-600 mb-10 text-lg max-w-md mx-auto leading-relaxed">
             Set up in 2 minutes. Free up to 3 clients. No credit card required.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <Link
               href="/signup"
-              className="group inline-flex items-center gap-2 rounded-xl bg-[#8B6F47] hover:bg-[#7A5F3D] text-white font-semibold px-8 py-4 text-base transition-all duration-200 shadow-lg shadow-[#8B6F47]/20"
+              className="group inline-flex items-center gap-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-8 py-4 text-base transition-all duration-200 shadow-md shadow-indigo-600/20"
             >
               Start monitoring free
               <ArrowRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
             </Link>
             <Link
               href="/login"
-              className="inline-flex items-center gap-2 rounded-xl bg-[#E8DFD5] hover:bg-[#D4C4B8] border border-[#C19A6B] text-[#4A3C30] font-medium px-8 py-4 text-base transition-all duration-200"
+              className="inline-flex items-center gap-2 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-medium px-8 py-4 text-base transition-all duration-200"
             >
               Already have an account
             </Link>
@@ -1098,15 +1039,15 @@ export default function RootPage() {
       </section>
 
       {/* ── FOOTER ──────────────────────────────────────────────────────── */}
-      <footer className="border-t border-[#D4C4B8]/40 py-10">
+      <footer className="border-t border-slate-200 bg-slate-50 py-10">
         <div className="max-w-6xl mx-auto px-6">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
             <div className="flex items-center gap-2">
-              <span className="text-base font-bold text-[#4A3C30]">
-                Corpo<span className="text-[#8B6F47]">zort</span>
+              <span className="text-base font-bold text-slate-900">
+                Corpo<span className="text-indigo-600">zort</span>
               </span>
             </div>
-            <p className="text-xs text-[#7A634E]">
+            <p className="text-xs font-medium text-slate-400">
               © 2026 Corpozort. Built for agencies that care.
             </p>
             <div className="flex items-center gap-6">
@@ -1119,7 +1060,7 @@ export default function RootPage() {
                 <Link
                   key={l.label}
                   href={l.href}
-                  className="text-xs text-[#7A634E] hover:text-[#4A3C30] transition-colors"
+                  className="text-xs font-medium text-slate-400 hover:text-indigo-600 transition-colors"
                 >
                   {l.label}
                 </Link>
@@ -1130,4 +1071,5 @@ export default function RootPage() {
       </footer>
     </div>
   );
-                }
+}
+
