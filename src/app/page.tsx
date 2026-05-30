@@ -271,7 +271,7 @@ function DashboardMockup() {
         </div>
         <div className="flex-1 flex justify-center">
           <div className="bg-[#D4C4B8]/60 rounded-md px-4 py-1 text-[11px] text-[#6B5644] flex items-center gap-1.5">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#C19A6B] inline-block" />
+            <span className="h-1.5 w-1.5 rounded-full bg-[#7D8A5A] inline-block" />
             app.corpozort.tech/dashboard
           </div>
         </div>
