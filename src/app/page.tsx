@@ -290,9 +290,9 @@ function DashboardMockup() {
             <div key={s.label} className="rounded-xl bg-[#E8DFD5]/60 border border-[#D4C4B8] p-3">
               <div className="flex items-center justify-between mb-2">
                 <p className="text-[10px] text-[#7A634E]">{s.label}</p>
-                <s.icon className={cn("h-3 w-3", s.alert ? "text-[#7A5F3D]" : "text-[#8A735F]")} />
+                <s.icon className={cn("h-3 w-3", s.alert ? "text-[#9C5B4E]" : "text-[#8A735F]")} />
               </div>
-              <p className={cn("text-xl font-bold", s.alert ? "text-[#7A5F3D]" : "text-[#4A3C30]")}>
+              <p className={cn("text-xl font-bold", s.alert ? "text-[#9C5B4E]" : "text-[#4A3C30]")}>
                 {s.value}
               </p>
             </div>
