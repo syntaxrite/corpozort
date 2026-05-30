@@ -678,7 +678,7 @@ export default function RootPage() {
             transition={{ duration: 0.6, delay: 1.5 }}
             className="text-lg text-stone-700 max-w-xl mx-auto mb-10 leading-relaxed"
           >
-            Corpozort watches your clients' marketing integrations 24/7 — so you
+            Corpozort watches your clients&apos; marketing integrations 24/7 — so you
             catch broken campaigns, silent failures, and anomalies before anyone else does.
           </motion.p>
 
@@ -970,7 +970,7 @@ export default function RootPage() {
               Flat-rate. No per-client penalties.
             </h2>
             <p className="text-stone-700 text-base">
-              Every competitor charges per client. We don't.
+              Every competitor charges per client. We don&apos;t
             </p>
           </FadeIn>
 
