@@ -265,9 +265,9 @@ function DashboardMockup() {
       {/* Browser chrome */}
       <div className="flex items-center gap-3 px-4 py-3 border-b border-[#D4C4B8] bg-[#E8DFD5]/50">
         <div className="flex gap-1.5">
-          <div className="h-2.5 w-2.5 rounded-full bg-[#7A5F3D]/70" />
+          <div className="h-2.5 w-2.5 rounded-full bg-[#9C5B4E]/70" />
           <div className="h-2.5 w-2.5 rounded-full bg-[#C19A6B]/70" />
-          <div className="h-2.5 w-2.5 rounded-full bg-[#A8865B]/70" />
+          <div className="h-2.5 w-2.5 rounded-full bg-[#7D8A5A]/70" />
         </div>
         <div className="flex-1 flex justify-center">
           <div className="bg-[#D4C4B8]/60 rounded-md px-4 py-1 text-[11px] text-[#6B5644] flex items-center gap-1.5">
@@ -315,10 +315,10 @@ function DashboardMockup() {
                     className={cn(
                       "h-2 w-2 rounded-full shrink-0",
                       c.status === "healthy"
-                        ? "bg-[#C19A6B]"
+                        ? "bg-[#7D8A5A]"
                         : c.status === "degraded"
-                        ? "bg-[#8B6F47] animate-pulse"
-                        : "bg-[#7A5F3D] animate-pulse"
+                        ? "bg-[#C19A6B] animate-pulse"
+                        : "bg-[#9C5B4E] animate-pulse"
                     )}
                   />
                   <span className="text-[12px] text-[#5A4737]">{c.name}</span>
@@ -326,7 +326,7 @@ function DashboardMockup() {
                 </div>
                 <div className="flex items-center gap-2">
                   {c.change !== "-" && (
-                    <span className="text-[10px] text-[#A8865B] flex items-center gap-0.5">
+                    <span className="text-[10px] text-[#6F7C4E] flex items-center gap-0.5">
                       <TrendingUp className="h-2.5 w-2.5" /> {c.change}
                     </span>
                   )}
@@ -334,10 +334,10 @@ function DashboardMockup() {
                     className={cn(
                       "text-[10px] font-medium px-1.5 py-0.5 rounded-full",
                       c.status === "healthy"
-                        ? "bg-[#C19A6B]/10 text-[#8B6F47]"
+                        ? "bg-[#7D8A5A]/10 text-[#6F7C4E]"
                         : c.status === "degraded"
-                        ? "bg-[#8B6F47]/10 text-[#8B6F47]"
-                        : "bg-[#7A5F3D]/10 text-[#7A5F3D]"
+                        ? "bg-[#C19A6B]/10 text-[#8B6F47]"
+                        : "bg-[#9C5B4E]/10 text-[#8A4F44]"
                     )}
                   >
                     {c.status.charAt(0).toUpperCase() + c.status.slice(1)}
