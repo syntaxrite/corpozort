@@ -62,7 +62,7 @@ export function IntegrationFailureEmail({
       >
         Hi {agencyOwnerName}, the <strong>{platformName}</strong> integration
         for <strong>{clientName}</strong> failed during its last sync.
-        Scheduled reports for this client may fail until it's reconnected.
+        Scheduled reports for this client may fail until it is reconnected.
       </p>
 
       <a
