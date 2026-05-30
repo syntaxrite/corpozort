@@ -93,60 +93,6 @@ function FadeIn({
   );
 }
 
-// ─── LEMMING MASCOT ────────────────────────────────────────────────────────
-
-function LemmingMascot() {
-  const [scrollY, setScrollY] = useState(0);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  return (
-    <motion.div
-      className="fixed right-6 bottom-6 z-40 pointer-events-none"
-      animate={{ y: scrollY }}
-      transition={{ type: "spring", stiffness: 100, damping: 30 }}
-    >
-      <div className="w-16 h-16 relative">
-        {/* Lemming body */}
-        <div className="w-full h-full bg-[#8B6F47] rounded-full relative shadow-lg">
-          {/* Head */}
-          <div className="absolute top-1 left-1/2 -translate-x-1/2 w-6 h-6 bg-[#A8865B] rounded-full"></div>
-          
-          {/* Eyes */}
-          <div className="absolute top-2 left-3 w-1.5 h-1.5 bg-white rounded-full"></div>
-          <div className="absolute top-2 right-3 w-1.5 h-1.5 bg-white rounded-full"></div>
-          
-          {/* Snout */}
-          <div className="absolute top-3.5 left-1/2 -translate-x-1/2 w-2 h-1.5 bg-[#C19A6B] rounded-full"></div>
-          
-          {/* Front paws */}
-          <div className="absolute top-4 left-2 w-1.5 h-3 bg-[#7A5F3D] rounded-full"></div>
-          <div className="absolute top-4 right-2 w-1.5 h-3 bg-[#7A5F3D] rounded-full"></div>
-          
-          {/* Tail */}
-          <div className="absolute bottom-0 right-1 w-2 h-4 bg-[#7A5F3D] rounded-full opacity-70"></div>
-        </div>
-
-        {/* Thought bubble */}
-        <motion.div
-          className="absolute -top-8 left-1/2 -translate-x-1/2 bg-[#F5F0EB]/90 text-[#4A3C30] px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap shadow-md"
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.5 }}
-        >
-          Keep scrolling!
-        </motion.div>
-      </div>
-    </motion.div>
-  );
-}
-
 // ─── LIVE FEED TICKER ────────────────────────────────────────────────────────
 
 const feedEvents = [
@@ -161,18 +107,18 @@ const feedEvents = [
 ];
 
 const colorClasses = {
-  primary: { badge: "bg-[#8B6F47]/10 text-[#8B6F47] border-[#8B6F47]/20", dot: "bg-[#8B6F47]" },
-  secondary: { badge: "bg-[#C19A6B]/10 text-[#C19A6B] border-[#C19A6B]/20", dot: "bg-[#C19A6B]" },
-  neutral: { badge: "bg-[#A8865B]/10 text-[#7A634E] border-[#A8865B]/20", dot: "bg-[#A8865B]" },
+  primary: { badge: "bg-[#5A67D8]/10 text-[#5A67D8] border-[#5A67D8]/20", dot: "bg-[#5A67D8]" },
+  secondary: { badge: "bg-[#A5B4FC]/10 text-[#A5B4FC] border-[#A5B4FC]/20", dot: "bg-[#A5B4FC]" },
+  neutral: { badge: "bg-[#818CF8]/10 text-[#6366F1] border-[#818CF8]/20", dot: "bg-[#818CF8]" },
   alert: { badge: "bg-[#9C5B4E]/10 text-[#9C5B4E] border-[#9C5B4E]/20", dot: "bg-[#9C5B4E]" },
 };
 
 function LiveFeedTicker() {
   const doubled = [...feedEvents, ...feedEvents];
   return (
-    <div className="relative overflow-hidden border-y border-[#D4C4B8]/20 py-3 bg-[#E8DFD5]">
-      <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#E8DFD5] to-transparent z-10 pointer-events-none" />
-      <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#E8DFD5] to-transparent z-10 pointer-events-none" />
+    <div className="relative overflow-hidden border-y border-[#DDD6FE]/20 py-3 bg-[#F0F4FF]">
+      <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#F0F4FF] to-transparent z-10 pointer-events-none" />
+      <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#F0F4FF] to-transparent z-10 pointer-events-none" />
       <motion.div
         className="flex gap-3 whitespace-nowrap"
         animate={{ x: ["0%", "-50%"] }}
@@ -233,7 +179,7 @@ function HeroHeadline() {
         "inline-block mr-[0.22em] transition-all duration-500",
         visible ? "opacity-100 translate-y-0 blur-none" : "opacity-0 translate-y-5 blur-sm",
         isAccent &&
-          "bg-gradient-to-r from-[#8B6F47] via-[#A8865B] to-[#C19A6B] bg-clip-text text-transparent"
+          "bg-gradient-to-r from-[#5A67D8] via-[#818CF8] to-[#A5B4FC] bg-clip-text text-transparent"
       )}
       style={{ transitionDelay: `${i * 20}ms` }}
     >
@@ -242,7 +188,7 @@ function HeroHeadline() {
   );
 
   return (
-    <h1 className="text-5xl sm:text-6xl lg:text-[5.25rem] font-bold leading-[1.08] tracking-[-0.03em] text-[#4A3C30] mb-7">
+    <h1 className="text-5xl sm:text-6xl lg:text-[5.25rem] font-bold leading-[1.08] tracking-[-0.03em] text-[#312E81] mb-7">
       <span className="block">{line1.map((w, i) => word(w, i < v1, i))}</span>
       <span className="block">{line2.map((w, i) => word(w, i < v2, i))}</span>
       <span className="block">{accent.map((w, i) => word(w, i < va, i, true))}</span>
@@ -261,16 +207,16 @@ function DashboardMockup() {
   ];
 
   return (
-    <div className="relative rounded-2xl border border-[#D4C4B8] bg-[#F5F0EB] overflow-hidden shadow-lg">
+    <div className="relative rounded-2xl border border-[#DDD6FE] bg-[#F5F7FF] overflow-hidden shadow-lg">
       {/* Browser chrome */}
-      <div className="flex items-center gap-3 px-4 py-3 border-b border-[#D4C4B8] bg-[#E8DFD5]/50">
+      <div className="flex items-center gap-3 px-4 py-3 border-b border-[#DDD6FE] bg-[#F0F4FF]/50">
         <div className="flex gap-1.5">
           <div className="h-2.5 w-2.5 rounded-full bg-[#9C5B4E]/80" />
-          <div className="h-2.5 w-2.5 rounded-full bg-[#C19A6B]/80" />
+          <div className="h-2.5 w-2.5 rounded-full bg-[#A5B4FC]/80" />
           <div className="h-2.5 w-2.5 rounded-full bg-[#7D8A5A]/80" />
         </div>
         <div className="flex-1 flex justify-center">
-          <div className="bg-[#D4C4B8]/60 rounded-md px-4 py-1 text-[11px] text-[#6B5644] flex items-center gap-1.5">
+          <div className="bg-[#DDD6FE]/60 rounded-md px-4 py-1 text-[11px] text-[#4338CA] flex items-center gap-1.5">
             <span className="h-1.5 w-1.5 rounded-full bg-[#7D8A5A] inline-block" />
             app.corpozort.tech/dashboard
           </div>
@@ -287,12 +233,12 @@ function DashboardMockup() {
             { label: "Integrations", value: "71", icon: Layers, alert: false },
             { label: "Active Alerts", value: "2", icon: Bell, alert: true },
           ].map((s) => (
-            <div key={s.label} className="rounded-xl bg-[#E8DFD5]/60 border border-[#D4C4B8] p-3">
+            <div key={s.label} className="rounded-xl bg-[#F0F4FF]/60 border border-[#DDD6FE] p-3">
               <div className="flex items-center justify-between mb-2">
-                <p className="text-[10px] text-[#7A634E]">{s.label}</p>
-                <s.icon className={cn("h-3 w-3", s.alert ? "text-[#9C5B4E]" : "text-[#8A735F]")} />
+                <p className="text-[10px] text-[#6366F1]">{s.label}</p>
+                <s.icon className={cn("h-3 w-3", s.alert ? "text-[#9C5B4E]" : "text-[#6366F1]")} />
               </div>
-              <p className={cn("text-xl font-bold", s.alert ? "text-[#9C5B4E]" : "text-[#4A3C30]")}>
+              <p className={cn("text-xl font-bold", s.alert ? "text-[#9C5B4E]" : "text-[#312E81]")}>
                 {s.value}
               </p>
             </div>
@@ -300,10 +246,10 @@ function DashboardMockup() {
         </div>
 
         {/* Health table */}
-        <div className="rounded-xl bg-[#E8DFD5]/40 border border-[#D4C4B8] p-3">
+        <div className="rounded-xl bg-[#F0F4FF]/40 border border-[#DDD6FE] p-3">
           <div className="flex items-center justify-between mb-3">
-            <p className="text-[11px] font-semibold text-[#6B5644]">Integration Health</p>
-            <span className="text-[10px] text-[#7A634E] flex items-center gap-1">
+            <p className="text-[11px] font-semibold text-[#4338CA]">Integration Health</p>
+            <span className="text-[10px] text-[#6366F1] flex items-center gap-1">
               <Activity className="h-2.5 w-2.5" /> Live
             </span>
           </div>
@@ -317,12 +263,12 @@ function DashboardMockup() {
                       c.status === "healthy"
                         ? "bg-[#7D8A5A]"
                         : c.status === "degraded"
-                        ? "bg-[#C19A6B] animate-pulse"
+                        ? "bg-[#A5B4FC] animate-pulse"
                         : "bg-[#9C5B4E] animate-pulse"
                     )}
                   />
-                  <span className="text-[12px] text-[#5A4737]">{c.name}</span>
-                  <span className="text-[10px] text-[#7A634E]">{c.platform}</span>
+                  <span className="text-[12px] text-[#312E81]">{c.name}</span>
+                  <span className="text-[10px] text-[#6366F1]">{c.platform}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   {c.change !== "-" && (
@@ -336,7 +282,7 @@ function DashboardMockup() {
                       c.status === "healthy"
                         ? "bg-[#7D8A5A]/10 text-[#6F7C4E]"
                         : c.status === "degraded"
-                        ? "bg-[#C19A6B]/10 text-[#8B6F47]"
+                        ? "bg-[#A5B4FC]/10 text-[#5A67D8]"
                         : "bg-[#9C5B4E]/10 text-[#8A4F44]"
                     )}
                   >
@@ -350,7 +296,7 @@ function DashboardMockup() {
       </div>
 
       {/* Bottom fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-[#F5F0EB] to-transparent pointer-events-none" />
+      <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-[#F5F7FF] to-transparent pointer-events-none" />
     </div>
   );
 }
@@ -376,14 +322,14 @@ function Nav() {
         className={cn(
           "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
           scrolled
-            ? "bg-[#F5F0EB]/80 backdrop-blur-xl border-b border-[#D4C4B8]/30"
+            ? "bg-[#F5F7FF]/80 backdrop-blur-xl border-b border-[#DDD6FE]/30"
             : "bg-transparent"
         )}
       >
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
-            <span className="text-lg font-bold tracking-tight text-[#4A3C30]">
-              Corpo<span className="text-[#8B6F47]">zort</span>
+            <span className="text-lg font-bold tracking-tight text-[#312E81]">
+              Corpo<span className="text-[#5A67D8]">zort</span>
             </span>
           </Link>
 
@@ -392,7 +338,7 @@ function Nav() {
               <a
                 key={item}
                 href={`#${item.toLowerCase().replace(/ /g, "-")}`}
-                className="text-sm text-[#7A634E] hover:text-[#4A3C30] transition-colors"
+                className="text-sm text-[#6366F1] hover:text-[#312E81] transition-colors"
               >
                 {item}
               </a>
@@ -402,20 +348,20 @@ function Nav() {
           <div className="hidden md:flex items-center gap-3">
             <Link
               href="/login"
-              className="text-sm text-[#7A634E] hover:text-[#4A3C30] transition-colors font-medium"
+              className="text-sm text-[#6366F1] hover:text-[#312E81] transition-colors font-medium"
             >
               Sign in
             </Link>
             <Link
               href="/signup"
-              className="inline-flex items-center gap-1.5 rounded-lg bg-[#8B6F47] hover:bg-[#7A5F3D] text-white text-sm font-semibold px-4 py-2 transition-all duration-150 active:scale-[0.97]"
+              className="inline-flex items-center gap-1.5 rounded-lg bg-[#5A67D8] hover:bg-[#4F46E5] text-white text-sm font-semibold px-4 py-2 transition-all duration-150 active:scale-[0.97]"
             >
               Get started <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </div>
 
           <button
-            className="md:hidden text-[#7A634E] hover:text-[#4A3C30]"
+            className="md:hidden text-[#6366F1] hover:text-[#312E81]"
             onClick={() => setOpen(!open)}
           >
             {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -430,25 +376,25 @@ function Nav() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.18 }}
-            className="fixed top-16 left-0 right-0 z-40 bg-[#F5F0EB]/95 backdrop-blur-xl border-b border-[#D4C4B8]/30 px-6 py-6 flex flex-col gap-4 md:hidden"
+            className="fixed top-16 left-0 right-0 z-40 bg-[#F5F7FF]/95 backdrop-blur-xl border-b border-[#DDD6FE]/30 px-6 py-6 flex flex-col gap-4 md:hidden"
           >
             {["Features", "How it works", "Pricing"].map((item) => (
               <a
                 key={item}
                 href={`#${item.toLowerCase().replace(/ /g, "-")}`}
-                className="text-sm text-[#7A634E] hover:text-[#4A3C30] transition-colors"
+                className="text-sm text-[#6366F1] hover:text-[#312E81] transition-colors"
                 onClick={() => setOpen(false)}
               >
                 {item}
               </a>
             ))}
-            <hr className="border-[#D4C4B8]/30" />
-            <Link href="/login" className="text-sm text-[#7A634E]">
+            <hr className="border-[#DDD6FE]/30" />
+            <Link href="/login" className="text-sm text-[#6366F1]">
               Sign in
             </Link>
             <Link
               href="/signup"
-              className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#8B6F47] text-white text-sm font-semibold px-4 py-2.5"
+              className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5A67D8] text-white text-sm font-semibold px-4 py-2.5"
             >
               Get started <ArrowRight className="h-3.5 w-3.5" />
             </Link>
@@ -601,16 +547,16 @@ function FAQ() {
       {faqs.map((faq, i) => (
         <div
           key={i}
-          className="rounded-xl border border-[#D4C4B8] bg-[#F5F0EB]/60 overflow-hidden"
+          className="rounded-xl border border-[#DDD6FE] bg-[#F5F7FF]/60 overflow-hidden"
         >
           <button
             className="w-full flex items-center justify-between px-5 py-4 text-left"
             onClick={() => setOpen(open === i ? null : i)}
           >
-            <span className="text-sm font-medium text-[#5A4737]">{faq.q}</span>
+            <span className="text-sm font-medium text-[#312E81]">{faq.q}</span>
             <ChevronDown
               className={cn(
-                "h-4 w-4 text-[#8A735F] transition-transform duration-200 shrink-0 ml-4",
+                "h-4 w-4 text-[#6366F1] transition-transform duration-200 shrink-0 ml-4",
                 open === i && "rotate-180"
               )}
             />
@@ -623,7 +569,7 @@ function FAQ() {
                 exit={{ height: 0, opacity: 0 }}
                 transition={{ duration: 0.22, ease: "easeInOut" }}
               >
-                <p className="px-5 pb-4 text-sm text-[#6B5644] leading-relaxed">
+                <p className="px-5 pb-4 text-sm text-[#4338CA] leading-relaxed">
                   {faq.a}
                 </p>
               </motion.div>
@@ -639,15 +585,14 @@ function FAQ() {
 
 export default function RootPage() {
   return (
-    <div className="bg-[#E8DFD5] text-[#4A3C30]">
+    <div className="bg-[#F0F4FF] text-[#312E81]">
       <Nav />
-      <LemmingMascot />
 
       {/* ── HERO ───────────────────────────────────────────────────────── */}
       <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[60%] w-[900px] h-[900px] rounded-full bg-[#C19A6B]/20 blur-[130px]" />
-          <div className="absolute top-1/3 right-1/4 w-[400px] h-[400px] rounded-full bg-[#C19A6B]/15 blur-[90px]" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[60%] w-[900px] h-[900px] rounded-full bg-[#A5B4FC]/20 blur-[130px]" />
+          <div className="absolute top-1/3 right-1/4 w-[400px] h-[400px] rounded-full bg-[#A5B4FC]/15 blur-[90px]" />
           <div
             className="absolute inset-0 opacity-[0.02]"
             style={{
@@ -663,9 +608,9 @@ export default function RootPage() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="inline-flex items-center gap-2 rounded-full bg-[#E8DFD5]/40 border border-[#D4C4B8]/50 px-4 py-1.5 mb-10 backdrop-blur-sm"
+            className="inline-flex items-center gap-2 rounded-full bg-[#F0F4FF]/40 border border-[#DDD6FE]/50 px-4 py-1.5 mb-10 backdrop-blur-sm"
           >
-            <span className="text-xs font-medium text-[#6B5644]">
+            <span className="text-xs font-medium text-[#4338CA]">
               Live monitoring for marketing agencies
             </span>
           </motion.div>
@@ -676,7 +621,7 @@ export default function RootPage() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 1.5 }}
-            className="text-lg text-[#6B5644] max-w-xl mx-auto mb-10 leading-relaxed"
+            className="text-lg text-[#4338CA] max-w-xl mx-auto mb-10 leading-relaxed"
           >
             Corpozort watches your clients&apos; marketing integrations 24/7 — so you
             catch broken campaigns, silent failures, and anomalies before anyone else does.
@@ -690,14 +635,14 @@ export default function RootPage() {
           >
             <Link
               href="/signup"
-              className="group inline-flex items-center gap-2 rounded-xl bg-[#8B6F47] hover:bg-[#7A5F3D] text-white font-semibold px-7 py-3.5 text-base transition-all duration-200 active:scale-[0.97]"
+              className="group inline-flex items-center gap-2 rounded-xl bg-[#5A67D8] hover:bg-[#4F46E5] text-white font-semibold px-7 py-3.5 text-base transition-all duration-200 active:scale-[0.97]"
             >
               Start monitoring free
               <ArrowRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
             </Link>
             <Link
               href="/login"
-              className="inline-flex items-center gap-2 rounded-xl bg-[#E8DFD5] hover:bg-[#D4C4B8] border border-[#C19A6B] text-[#4A3C30] font-medium px-7 py-3.5 text-base transition-all duration-200"
+              className="inline-flex items-center gap-2 rounded-xl bg-[#F0F4FF] hover:bg-[#DDD6FE] border border-[#A5B4FC] text-[#312E81] font-medium px-7 py-3.5 text-base transition-all duration-200"
             >
               Sign in
             </Link>
@@ -707,7 +652,7 @@ export default function RootPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 1.9 }}
-            className="text-xs text-[#7A634E]"
+            className="text-xs text-[#6366F1]"
           >
             No credit card · Free up to 3 clients · Setup in 2 minutes
           </motion.p>
@@ -724,7 +669,7 @@ export default function RootPage() {
               { icon: Globe, label: "4 integrations" },
               { icon: Zap, label: "Instant alerts" },
             ].map(({ icon: Icon, label }) => (
-              <div key={label} className="flex items-center gap-1.5 text-[#7A634E]">
+              <div key={label} className="flex items-center gap-1.5 text-[#6366F1]">
                 <Icon className="h-3.5 w-3.5" />
                 <span className="text-xs">{label}</span>
               </div>
@@ -737,7 +682,7 @@ export default function RootPage() {
             transition={{ duration: 0.9, delay: 2.3, ease: [0.22, 1, 0.36, 1] }}
             className="mt-16 relative"
           >
-            <div className="absolute -inset-6 bg-[#C19A6B]/[0.08] rounded-3xl blur-3xl" />
+            <div className="absolute -inset-6 bg-[#A5B4FC]/[0.08] rounded-3xl blur-3xl" />
             <DashboardMockup />
           </motion.div>
         </div>
@@ -749,13 +694,13 @@ export default function RootPage() {
       {/* ── PROBLEM ─────────────────────────────────────────────────────── */}
       <section id="features" className="max-w-6xl mx-auto px-6 py-28">
         <FadeIn className="text-center mb-16">
-          <p className="text-xs font-semibold text-[#8B6F47] uppercase tracking-[0.15em] mb-4">
+          <p className="text-xs font-semibold text-[#5A67D8] uppercase tracking-[0.15em] mb-4">
             The problem
           </p>
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#4A3C30] mb-4 tracking-tight">
+          <h2 className="text-3xl sm:text-4xl font-bold text-[#312E81] mb-4 tracking-tight">
             Agencies lose clients to silent failures
           </h2>
-          <p className="text-[#6B5644] max-w-lg mx-auto text-base">
+          <p className="text-[#4338CA] max-w-lg mx-auto text-base">
             Every competitor shows you broken data after the fact. Corpozort tells you
             before the report fails.
           </p>
@@ -768,19 +713,19 @@ export default function RootPage() {
               item.color === "red"
                 ? "border-[#9C5B4E]/20"
                 : item.color === "amber"
-                ? "border-[#8B6F47]/20"
-                : "border-[#A8865B]/20";
+                ? "border-[#5A67D8]/20"
+                : "border-[#818CF8]/20";
             const iconBg =
               item.color === "red"
                 ? "bg-[#9C5B4E]/10 text-[#9C5B4E]"
                 : item.color === "amber"
-                ? "bg-[#8B6F47]/10 text-[#8B6F47]"
-                : "bg-[#A8865B]/10 text-[#6B5644]";
+                ? "bg-[#5A67D8]/10 text-[#5A67D8]"
+                : "bg-[#818CF8]/10 text-[#4338CA]";
             return (
               <FadeIn key={i} delay={i * 0.1}>
                 <div
                   className={cn(
-                    "rounded-2xl border bg-[#F5F0EB]/60 p-6 h-full transition-all duration-300 hover:bg-[#F5F0EB]",
+                    "rounded-2xl border bg-[#F5F7FF]/60 p-6 h-full transition-all duration-300 hover:bg-[#F5F7FF]",
                     borderColor
                   )}
                 >
@@ -797,8 +742,8 @@ export default function RootPage() {
                   >
                     <Icon className="h-5 w-5" />
                   </div>
-                  <h3 className="text-sm font-semibold text-[#4A3C30] mb-2">{item.title}</h3>
-                  <p className="text-sm text-[#6B5644] leading-relaxed">{item.body}</p>
+                  <h3 className="text-sm font-semibold text-[#312E81] mb-2">{item.title}</h3>
+                  <p className="text-sm text-[#4338CA] leading-relaxed">{item.body}</p>
                 </div>
               </FadeIn>
             );
@@ -807,13 +752,13 @@ export default function RootPage() {
       </section>
 
       {/* ── SOLUTION ────────────────────────────────────────────────────── */}
-      <section className="border-y border-[#D4C4B8]/40 bg-[#F5F0EB]/30 py-28">
+      <section className="border-y border-[#DDD6FE]/40 bg-[#F5F7FF]/30 py-28">
         <div className="max-w-6xl mx-auto px-6">
           <FadeIn className="text-center mb-16">
-            <p className="text-xs font-semibold text-[#8B6F47] uppercase tracking-[0.15em] mb-4">
+            <p className="text-xs font-semibold text-[#5A67D8] uppercase tracking-[0.15em] mb-4">
               The solution
             </p>
-            <h2 className="text-3xl sm:text-4xl font-bold text-[#4A3C30] tracking-tight">
+            <h2 className="text-3xl sm:text-4xl font-bold text-[#312E81] tracking-tight">
               Corpozort fixes all three
             </h2>
           </FadeIn>
@@ -823,13 +768,13 @@ export default function RootPage() {
               const Icon = item.icon;
               const bg =
                 item.color === "amber"
-                  ? "bg-[#8B6F47]"
+                  ? "bg-[#5A67D8]"
                   : item.color === "stone"
-                  ? "bg-[#6B5644]"
-                  : "bg-[#C19A6B]";
+                  ? "bg-[#4338CA]"
+                  : "bg-[#A5B4FC]";
               return (
                 <FadeIn key={i} delay={i * 0.1}>
-                  <div className="rounded-2xl border border-[#D4C4B8] bg-[#F5F0EB]/80 p-6 h-full hover:border-[#C19A6B] hover:bg-[#F5F0EB] transition-all duration-300">
+                  <div className="rounded-2xl border border-[#DDD6FE] bg-[#F5F7FF]/80 p-6 h-full hover:border-[#A5B4FC] hover:bg-[#F5F7FF] transition-all duration-300">
                     <div
                       className={cn(
                         "rounded-xl w-10 h-10 flex items-center justify-center mb-4",
@@ -838,8 +783,8 @@ export default function RootPage() {
                     >
                       <Icon className="h-5 w-5 text-white" />
                     </div>
-                    <h3 className="text-sm font-semibold text-[#4A3C30] mb-2">{item.title}</h3>
-                    <p className="text-sm text-[#6B5644] leading-relaxed">{item.body}</p>
+                    <h3 className="text-sm font-semibold text-[#312E81] mb-2">{item.title}</h3>
+                    <p className="text-sm text-[#4338CA] leading-relaxed">{item.body}</p>
                   </div>
                 </FadeIn>
               );
@@ -851,16 +796,16 @@ export default function RootPage() {
       {/* ── HOW IT WORKS ────────────────────────────────────────────────── */}
       <section id="how-it-works" className="max-w-3xl mx-auto px-6 py-28">
         <FadeIn className="text-center mb-16">
-          <p className="text-xs font-semibold text-[#8B6F47] uppercase tracking-[0.15em] mb-4">
+          <p className="text-xs font-semibold text-[#5A67D8] uppercase tracking-[0.15em] mb-4">
             How it works
           </p>
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#4A3C30] tracking-tight">
+          <h2 className="text-3xl sm:text-4xl font-bold text-[#312E81] tracking-tight">
             Three steps. Then it runs itself.
           </h2>
         </FadeIn>
 
         <div className="relative">
-          <div className="absolute left-6 top-10 bottom-10 w-px bg-gradient-to-b from-[#8B6F47]/0 via-[#8B6F47]/30 to-[#8B6F47]/0 hidden sm:block" />
+          <div className="absolute left-6 top-10 bottom-10 w-px bg-gradient-to-b from-[#5A67D8]/0 via-[#5A67D8]/30 to-[#5A67D8]/0 hidden sm:block" />
           <div className="space-y-10">
             {[
               {
@@ -881,14 +826,14 @@ export default function RootPage() {
             ].map((item, i) => (
               <FadeIn key={i} delay={i * 0.12}>
                 <div className="flex gap-6 relative">
-                  <div className="flex-shrink-0 h-12 w-12 rounded-full bg-[#8B6F47] text-white flex items-center justify-center text-sm font-bold z-10 shadow-lg shadow-[#8B6F47]/30">
+                  <div className="flex-shrink-0 h-12 w-12 rounded-full bg-[#5A67D8] text-white flex items-center justify-center text-sm font-bold z-10 shadow-lg shadow-[#5A67D8]/30">
                     {item.step}
                   </div>
                   <div className="pt-2.5">
-                    <h3 className="text-base font-semibold text-[#4A3C30] mb-1.5">
+                    <h3 className="text-base font-semibold text-[#312E81] mb-1.5">
                       {item.title}
                     </h3>
-                    <p className="text-sm text-[#6B5644] leading-relaxed">{item.body}</p>
+                    <p className="text-sm text-[#4338CA] leading-relaxed">{item.body}</p>
                   </div>
                 </div>
               </FadeIn>
@@ -898,7 +843,7 @@ export default function RootPage() {
       </section>
 
       {/* ── STATS ───────────────────────────────────────────────────────── */}
-      <section className="border-y border-[#8B6F47]/20 bg-[#8B6F47]/[0.06] py-16">
+      <section className="border-y border-[#5A67D8]/20 bg-[#5A67D8]/[0.06] py-16">
         <div className="max-w-4xl mx-auto px-6">
           <div className="grid grid-cols-3 gap-8 text-center">
             {[
@@ -907,10 +852,10 @@ export default function RootPage() {
               { value: 2, suffix: " min", label: "Average setup time" },
             ].map((stat) => (
               <FadeIn key={stat.label}>
-                <p className="text-4xl font-bold text-[#4A3C30] mb-2">
+                <p className="text-4xl font-bold text-[#312E81] mb-2">
                   <AnimatedNumber target={stat.value} suffix={stat.suffix} />
                 </p>
-                <p className="text-sm text-[#6B5644]">{stat.label}</p>
+                <p className="text-sm text-[#4338CA]">{stat.label}</p>
               </FadeIn>
             ))}
           </div>
@@ -920,10 +865,10 @@ export default function RootPage() {
       {/* ── TESTIMONIALS ────────────────────────────────────────────────── */}
       <section className="max-w-6xl mx-auto px-6 py-28">
         <FadeIn className="text-center mb-16">
-          <p className="text-xs font-semibold text-[#8B6F47] uppercase tracking-[0.15em] mb-4">
+          <p className="text-xs font-semibold text-[#5A67D8] uppercase tracking-[0.15em] mb-4">
             From the field
           </p>
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#4A3C30] tracking-tight">
+          <h2 className="text-3xl sm:text-4xl font-bold text-[#312E81] tracking-tight">
             Agencies that caught it first
           </h2>
         </FadeIn>
@@ -931,26 +876,26 @@ export default function RootPage() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
           {testimonials.map((t, i) => (
             <FadeIn key={i} delay={i * 0.1}>
-              <div className="rounded-2xl border border-[#D4C4B8] bg-[#F5F0EB]/60 p-6 flex flex-col gap-4 h-full">
+              <div className="rounded-2xl border border-[#DDD6FE] bg-[#F5F7FF]/60 p-6 flex flex-col gap-4 h-full">
                 <div className="flex gap-0.5">
                   {Array(5)
                     .fill(0)
                     .map((_, j) => (
-                      <span key={j} className="text-[#8B6F47] text-sm">
+                      <span key={j} className="text-[#5A67D8] text-sm">
                         ★
                       </span>
                     ))}
                 </div>
-                <p className="text-sm text-[#5A4737] leading-relaxed flex-1 italic">
+                <p className="text-sm text-[#312E81] leading-relaxed flex-1 italic">
                   &ldquo;{t.quote}&rdquo;
                 </p>
-                <div className="flex items-center gap-3 pt-2 border-t border-[#D4C4B8]/60">
-                  <div className="h-8 w-8 rounded-full bg-[#8B6F47]/20 border border-[#8B6F47]/30 flex items-center justify-center text-[10px] font-bold text-[#8B6F47]">
+                <div className="flex items-center gap-3 pt-2 border-t border-[#DDD6FE]/60">
+                  <div className="h-8 w-8 rounded-full bg-[#5A67D8]/20 border border-[#5A67D8]/30 flex items-center justify-center text-[10px] font-bold text-[#5A67D8]">
                     {t.avatar}
                   </div>
                   <div>
-                    <p className="text-xs font-semibold text-[#4A3C30]">{t.name}</p>
-                    <p className="text-[11px] text-[#7A634E]">{t.role}</p>
+                    <p className="text-xs font-semibold text-[#312E81]">{t.name}</p>
+                    <p className="text-[11px] text-[#6366F1]">{t.role}</p>
                   </div>
                 </div>
               </div>
@@ -960,16 +905,16 @@ export default function RootPage() {
       </section>
 
       {/* ── PRICING ─────────────────────────────────────────────────────── */}
-      <section id="pricing" className="border-y border-[#D4C4B8]/40 bg-[#F5F0EB]/30 py-28">
+      <section id="pricing" className="border-y border-[#DDD6FE]/40 bg-[#F5F7FF]/30 py-28">
         <div className="max-w-5xl mx-auto px-6">
           <FadeIn className="text-center mb-16">
-            <p className="text-xs font-semibold text-[#8B6F47] uppercase tracking-[0.15em] mb-4">
+            <p className="text-xs font-semibold text-[#5A67D8] uppercase tracking-[0.15em] mb-4">
               Pricing
             </p>
-            <h2 className="text-3xl sm:text-4xl font-bold text-[#4A3C30] mb-3 tracking-tight">
+            <h2 className="text-3xl sm:text-4xl font-bold text-[#312E81] mb-3 tracking-tight">
               Flat-rate. No per-client penalties.
             </h2>
-            <p className="text-[#6B5644] text-base">
+            <p className="text-[#4338CA] text-base">
               Every competitor charges per client. We don&apos;t
             </p>
           </FadeIn>
@@ -981,31 +926,31 @@ export default function RootPage() {
                   className={cn(
                     "rounded-2xl border p-6 flex flex-col transition-all duration-300",
                     plan.highlight
-                      ? "border-[#8B6F47]/50 bg-[#8B6F47]/[0.08] shadow-lg shadow-[#8B6F47]/10 ring-1 ring-[#8B6F47]/20"
-                      : "border-[#D4C4B8] bg-[#F5F0EB]/60 hover:border-[#C19A6B]"
+                      ? "border-[#5A67D8]/50 bg-[#5A67D8]/[0.08] shadow-lg shadow-[#5A67D8]/10 ring-1 ring-[#5A67D8]/20"
+                      : "border-[#DDD6FE] bg-[#F5F7FF]/60 hover:border-[#A5B4FC]"
                   )}
                 >
                   {plan.highlight && (
-                    <span className="inline-block text-[10px] font-semibold uppercase tracking-wider text-[#8B6F47] bg-[#8B6F47]/10 border border-[#8B6F47]/20 rounded-full px-2.5 py-0.5 mb-4 w-fit">
+                    <span className="inline-block text-[10px] font-semibold uppercase tracking-wider text-[#5A67D8] bg-[#5A67D8]/10 border border-[#5A67D8]/20 rounded-full px-2.5 py-0.5 mb-4 w-fit">
                       Most popular
                     </span>
                   )}
-                  <p className="text-sm font-medium text-[#7A634E] mb-1">{plan.name}</p>
-                  <p className="text-4xl font-bold text-[#4A3C30] mb-1">
+                  <p className="text-sm font-medium text-[#6366F1] mb-1">{plan.name}</p>
+                  <p className="text-4xl font-bold text-[#312E81] mb-1">
                     ${plan.price}
-                    <span className="text-sm font-normal text-[#7A634E]">/mo</span>
+                    <span className="text-sm font-normal text-[#6366F1]">/mo</span>
                   </p>
-                  <p className="text-sm text-[#6B5644] mb-6">{plan.desc}</p>
+                  <p className="text-sm text-[#4338CA] mb-6">{plan.desc}</p>
                   <ul className="space-y-2.5 mb-8 flex-1">
                     {plan.features.map((f) => (
                       <li key={f} className="flex items-center gap-2.5 text-sm">
                         <CheckCircle
                           className={cn(
                             "h-4 w-4 shrink-0",
-                            plan.highlight ? "text-[#8B6F47]" : "text-[#7A634E]"
+                            plan.highlight ? "text-[#5A67D8]" : "text-[#6366F1]"
                           )}
                         />
-                        <span className="text-[#5A4737]">{f}</span>
+                        <span className="text-[#312E81]">{f}</span>
                       </li>
                     ))}
                   </ul>
@@ -1014,8 +959,8 @@ export default function RootPage() {
                     className={cn(
                       "w-full text-center rounded-xl py-2.5 text-sm font-semibold transition-all duration-150 active:scale-[0.97]",
                       plan.highlight
-                        ? "bg-[#8B6F47] text-white hover:bg-[#7A5F3D] shadow-lg shadow-[#8B6F47]/25"
-                        : "bg-[#E8DFD5] text-[#4A3C30] hover:bg-[#D4C4B8] border border-[#C19A6B]"
+                        ? "bg-[#5A67D8] text-white hover:bg-[#4F46E5] shadow-lg shadow-[#5A67D8]/25"
+                        : "bg-[#F0F4FF] text-[#312E81] hover:bg-[#DDD6FE] border border-[#A5B4FC]"
                     )}
                   >
                     {plan.cta}
@@ -1026,8 +971,8 @@ export default function RootPage() {
           </div>
 
           <FadeIn className="mt-8 text-center">
-            <p className="text-sm text-[#6B5644] flex items-center justify-center gap-2">
-              <Shield className="h-4 w-4 text-[#7A634E]" />
+            <p className="text-sm text-[#4338CA] flex items-center justify-center gap-2">
+              <Shield className="h-4 w-4 text-[#6366F1]" />
               14-day free trial on all paid plans · No credit card required · Cancel anytime
             </p>
           </FadeIn>
@@ -1037,10 +982,10 @@ export default function RootPage() {
       {/* ── FAQ ─────────────────────────────────────────────────────────── */}
       <section className="max-w-2xl mx-auto px-6 py-28">
         <FadeIn className="text-center mb-12">
-          <p className="text-xs font-semibold text-[#8B6F47] uppercase tracking-[0.15em] mb-4">
+          <p className="text-xs font-semibold text-[#5A67D8] uppercase tracking-[0.15em] mb-4">
             FAQ
           </p>
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#4A3C30] tracking-tight">
+          <h2 className="text-3xl sm:text-4xl font-bold text-[#312E81] tracking-tight">
             Common questions
           </h2>
         </FadeIn>
@@ -1050,9 +995,9 @@ export default function RootPage() {
       </section>
 
       {/* ── FINAL CTA ───────────────────────────────────────────────────── */}
-      <section className="relative py-32 overflow-hidden border-t border-[#D4C4B8]/40">
+      <section className="relative py-32 overflow-hidden border-t border-[#DDD6FE]/40">
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full bg-[#C19A6B]/15 blur-[120px]" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full bg-[#A5B4FC]/15 blur-[120px]" />
           <div
             className="absolute inset-0 opacity-[0.02]"
             style={{
@@ -1064,32 +1009,32 @@ export default function RootPage() {
         </div>
 
         <FadeIn className="relative max-w-3xl mx-auto px-6 text-center">
-          <div className="inline-flex items-center gap-2 rounded-full bg-[#E8DFD5]/40 border border-[#D4C4B8]/50 px-4 py-1.5 mb-8">
-            <span className="text-xs text-[#6B5644]">
+          <div className="inline-flex items-center gap-2 rounded-full bg-[#F0F4FF]/40 border border-[#DDD6FE]/50 px-4 py-1.5 mb-8">
+            <span className="text-xs text-[#4338CA]">
               Join agencies already monitoring
             </span>
           </div>
 
-          <h2 className="text-4xl sm:text-5xl font-bold text-[#4A3C30] mb-5 tracking-tight">
+          <h2 className="text-4xl sm:text-5xl font-bold text-[#312E81] mb-5 tracking-tight">
             Stop losing clients to <br />
-            <span className="bg-gradient-to-r from-[#8B6F47] via-[#A8865B] to-[#C19A6B] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#5A67D8] via-[#818CF8] to-[#A5B4FC] bg-clip-text text-transparent">
               silent failures
             </span>
           </h2>
-          <p className="text-[#6B5644] mb-10 text-lg max-w-md mx-auto">
+          <p className="text-[#4338CA] mb-10 text-lg max-w-md mx-auto">
             Set up in 2 minutes. Free up to 3 clients. No credit card required.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <Link
               href="/signup"
-              className="group inline-flex items-center gap-2 rounded-xl bg-[#8B6F47] hover:bg-[#7A5F3D] text-white font-semibold px-8 py-4 text-base transition-all duration-200 shadow-lg shadow-[#8B6F47]/20"
+              className="group inline-flex items-center gap-2 rounded-xl bg-[#5A67D8] hover:bg-[#4F46E5] text-white font-semibold px-8 py-4 text-base transition-all duration-200 shadow-lg shadow-[#5A67D8]/20"
             >
               Start monitoring free
               <ArrowRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
             </Link>
             <Link
               href="/login"
-              className="inline-flex items-center gap-2 rounded-xl bg-[#E8DFD5] hover:bg-[#D4C4B8] border border-[#C19A6B] text-[#4A3C30] font-medium px-8 py-4 text-base transition-all duration-200"
+              className="inline-flex items-center gap-2 rounded-xl bg-[#F0F4FF] hover:bg-[#DDD6FE] border border-[#A5B4FC] text-[#312E81] font-medium px-8 py-4 text-base transition-all duration-200"
             >
               Already have an account
             </Link>
@@ -1098,15 +1043,15 @@ export default function RootPage() {
       </section>
 
       {/* ── FOOTER ──────────────────────────────────────────────────────── */}
-      <footer className="border-t border-[#D4C4B8]/40 py-10">
+      <footer className="border-t border-[#DDD6FE]/40 py-10">
         <div className="max-w-6xl mx-auto px-6">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
             <div className="flex items-center gap-2">
-              <span className="text-base font-bold text-[#4A3C30]">
-                Corpo<span className="text-[#8B6F47]">zort</span>
+              <span className="text-base font-bold text-[#312E81]">
+                Corpo<span className="text-[#5A67D8]">zort</span>
               </span>
             </div>
-            <p className="text-xs text-[#7A634E]">
+            <p className="text-xs text-[#6366F1]">
               © 2026 Corpozort. Built for agencies that care.
             </p>
             <div className="flex items-center gap-6">
@@ -1119,7 +1064,7 @@ export default function RootPage() {
                 <Link
                   key={l.label}
                   href={l.href}
-                  className="text-xs text-[#7A634E] hover:text-[#4A3C30] transition-colors"
+                  className="text-xs text-[#6366F1] hover:text-[#312E81] transition-colors"
                 >
                   {l.label}
                 </Link>
