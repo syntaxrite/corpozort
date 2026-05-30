@@ -785,7 +785,7 @@ export default function RootPage() {
                   )}
                 >
                   {item.tag && (
-                    <span className="inline-block text-[10px] font-semibold uppercase tracking-wider text-[#7A5F3D] bg-[#7A5F3D]/10 border border-[#7A5F3D]/20 rounded-full px-2.5 py-0.5 mb-4">
+                    <span className="inline-block text-[10px] font-semibold uppercase tracking-wider text-[#9C5B4E] bg-[#9C5B4E]/10 border border-[#9C5B4E]/20 rounded-full px-2.5 py-0.5 mb-4">
                       {item.tag}
                     </span>
                   )}
