@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
-import { Building2, Users, Plug, CheckCircle } from "lucide-react";
+import { Building2, Users, Plug, CheckCircle, Plus } from "lucide-react";
 import { authClient } from "@/lib/auth/client";
 
 const steps = [
@@ -14,19 +14,49 @@ const steps = [
   { id: 3, label: "Connect Data", icon: Plug },
 ];
 
+interface Organization {
+  id: string;
+  name: string;
+  slug: string;
+  metadata?: Record<string, unknown>;
+}
+
 export default function OnboardingPage() {
   const router = useRouter();
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [agencies, setAgencies] = useState<Organization[]>([]);
+  const [loadingAgencies, setLoadingAgencies] = useState(true);
 
-  // Step 1
+  // Step 1 states
   const [agencyName, setAgencyName] = useState("");
+  const [selectedAgencyId, setSelectedAgencyId] = useState<string | null>(null);
+  const [isCreating, setIsCreating] = useState(false);
 
   // Step 2
   const [clientName, setClientName] = useState("");
 
-  async function handleStep1() {
+  // Fetch existing agencies on mount
+  useEffect(() => {
+    async function fetchAgencies() {
+      try {
+        setLoadingAgencies(true);
+        const { data } = await authClient.organization.list();
+        if (Array.isArray(data)) {
+          setAgencies(data as Organization[]);
+        }
+      } catch (e) {
+        console.error("Failed to fetch agencies:", e);
+      } finally {
+        setLoadingAgencies(false);
+      }
+    }
+
+    fetchAgencies();
+  }, []);
+
+  async function handleCreateAgency() {
     if (!agencyName.trim()) return;
     setError("");
     setLoading(true);
@@ -38,23 +68,31 @@ export default function OnboardingPage() {
         .replace(/\s+/g, "-")
         .replace(/[^a-z0-9-]/g, "");
 
-      const { error } = await authClient.organization.create({
+      const { data, error: createError } = await authClient.organization.create({
         name: agencyName.trim(),
-        slug: `${slug}-${Date.now()}`, // suffix prevents slug collisions
+        slug: `${slug}-${Date.now()}`,
       });
 
-      if (error) {
+      if (createError) {
         setError("Could not create agency. Try a different name.");
         setLoading(false);
         return;
       }
 
-      setStep(2);
+      if (data) {
+        setSelectedAgencyId((data as Organization).id);
+        setStep(2);
+      }
     } catch (e) {
       setError("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
+  }
+
+  async function handleSelectAgency(agencyId: string) {
+    setSelectedAgencyId(agencyId);
+    setStep(2);
   }
 
   function handleStep2() {
@@ -107,37 +145,126 @@ export default function OnboardingPage() {
           ))}
         </div>
 
-        {/* Step 1 — Agency */}
+        {/* Step 1 — Select or Create Agency */}
         {step === 1 && (
           <Card>
-            <h2 className="text-lg font-semibold text-gray-900 mb-1">
-              Name your agency
-            </h2>
-            <p className="text-sm text-gray-500 mb-6">
-              This is how your workspace will be identified.
-            </p>
-            <div className="space-y-4">
-              <Input
-                id="agency"
-                label="Agency name"
-                placeholder="Acme Marketing"
-                value={agencyName}
-                onChange={(e) => {
-                  setAgencyName(e.target.value);
-                  setError("");
-                }}
-                error={error}
-                autoFocus
-              />
-              <Button
-                className="w-full"
-                onClick={handleStep1}
-                loading={loading}
-                disabled={!agencyName.trim()}
-              >
-                Continue →
-              </Button>
-            </div>
+            {!isCreating ? (
+              <>
+                {agencies.length > 0 && (
+                  <>
+                    <h2 className="text-lg font-semibold text-gray-900 mb-1">
+                      Select your agency
+                    </h2>
+                    <p className="text-sm text-gray-500 mb-6">
+                      Choose an existing agency or create a new one.
+                    </p>
+                    <div className="space-y-3 mb-6">
+                      {agencies.map((agency) => (
+                        <button
+                          key={agency.id}
+                          onClick={() => handleSelectAgency(agency.id)}
+                          className="w-full flex items-center gap-3 p-4 border border-gray-200 rounded-lg hover:border-indigo-300 hover:bg-indigo-50 transition-colors text-left"
+                        >
+                          <Building2 className="h-5 w-5 text-gray-400 flex-shrink-0" />
+                          <div>
+                            <p className="font-medium text-gray-900">{agency.name}</p>
+                            <p className="text-sm text-gray-500">{agency.slug}</p>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                    <button
+                      onClick={() => setIsCreating(true)}
+                      className="w-full flex items-center justify-center gap-2 p-3 border-2 border-dashed border-gray-300 rounded-lg hover:border-indigo-400 hover:bg-indigo-50 transition-colors text-gray-700 font-medium"
+                    >
+                      <Plus className="h-4 w-4" />
+                      Create new agency
+                    </button>
+                  </>
+                )}
+
+                {agencies.length === 0 && !loadingAgencies && (
+                  <>
+                    <h2 className="text-lg font-semibold text-gray-900 mb-1">
+                      Create your first agency
+                    </h2>
+                    <p className="text-sm text-gray-500 mb-6">
+                      Start monitoring your clients' marketing in minutes.
+                    </p>
+                    <div className="space-y-4">
+                      <Input
+                        id="agency"
+                        label="Agency name"
+                        placeholder="Acme Marketing"
+                        value={agencyName}
+                        onChange={(e) => {
+                          setAgencyName(e.target.value);
+                          setError("");
+                        }}
+                        error={error}
+                        autoFocus
+                      />
+                      <Button
+                        className="w-full"
+                        onClick={handleCreateAgency}
+                        loading={loading}
+                        disabled={!agencyName.trim()}
+                      >
+                        Create agency →
+                      </Button>
+                    </div>
+                  </>
+                )}
+
+                {loadingAgencies && (
+                  <div className="text-center py-8">
+                    <p className="text-gray-500">Loading your agencies...</p>
+                  </div>
+                )}
+              </>
+            ) : (
+              <>
+                <h2 className="text-lg font-semibold text-gray-900 mb-1">
+                  Create a new agency
+                </h2>
+                <p className="text-sm text-gray-500 mb-6">
+                  Give your new workspace a name.
+                </p>
+                <div className="space-y-4">
+                  <Input
+                    id="agency"
+                    label="Agency name"
+                    placeholder="Acme Marketing"
+                    value={agencyName}
+                    onChange={(e) => {
+                      setAgencyName(e.target.value);
+                      setError("");
+                    }}
+                    error={error}
+                    autoFocus
+                  />
+                  <Button
+                    className="w-full"
+                    onClick={handleCreateAgency}
+                    loading={loading}
+                    disabled={!agencyName.trim()}
+                  >
+                    Create agency →
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    className="w-full text-gray-500"
+                    onClick={() => {
+                      setIsCreating(false);
+                      setAgencyName("");
+                      setError("");
+                    }}
+                  >
+                    Back
+                  </Button>
+                </div>
+              </>
+            )}
           </Card>
         )}
 
