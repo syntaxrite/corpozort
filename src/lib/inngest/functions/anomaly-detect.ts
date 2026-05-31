@@ -101,7 +101,7 @@ export const anomalyDetect = inngest.createFunction(
             .select({ email: user.email, name: user.name })
             .from(orgMembers)
             .innerJoin(user, eq(user.id, orgMembers.userId))
-            .where(eq(orgMembers.orgId, client.tenantId))
+            .where(eq(orgMembers.organizationId, client.tenantId))
             .limit(1)
             .then((r) => r[0]);
 
