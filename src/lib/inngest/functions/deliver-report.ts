@@ -56,7 +56,7 @@ export const deliverReport = inngest.createFunction(
         .select({ email: user.email, name: user.name })
         .from(orgMembers)
         .innerJoin(user, eq(user.id, orgMembers.userId))
-        .where(eq(orgMembers.orgId, tenantId))
+        .where(eq(orgMembers.organizationId, tenantId))
         .limit(1);
       return result[0];
     });
