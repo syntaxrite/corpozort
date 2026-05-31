@@ -31,14 +31,14 @@ export default function LoginPage() {
       return;
     }
 
-    router.push("/dashboard");
+    router.push("/onboarding");
   }
 
   async function handleGoogleLogin() {
     setGoogleLoading(true);
     await signIn.social({
       provider: "google",
-      callbackURL: "/dashboard",
+      callbackURL: "/onboarding",
     });
   }
 
