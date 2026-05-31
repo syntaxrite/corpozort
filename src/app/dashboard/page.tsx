@@ -6,183 +6,114 @@ import { AnomalyCard } from "@/components/monitoring/anomaly-card";
 import { ClientHealthList } from "@/components/dashboard/client-health-list";
 import { RecentReports } from "@/components/dashboard/recent-reports";
 import { Users, FileText, Plug, AlertTriangle } from "lucide-react";
-import type { AnomalyAlert } from "@/types";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
+import { db } from "@/db";
+import { orgMembers } from "@/db/schema";
+import { eq } from "drizzle-orm";
+import {
+  getDashboardStats,
+  getIntegrationHealth,
+  getRecentReports,
+  getClientHealthList,
+} from "@/lib/data/dashboard";
 
-// Placeholder data — replaced with real DB queries in Week 3
-const mockHealth = [
-  {
-    id: "1",
-    clientName: "Acme Corp",
-    platform: "ga4",
-    status: "healthy" as const,
-    lastSyncedAt: new Date(),
-  },
-  {
-    id: "2",
-    clientName: "Beta Agency",
-    platform: "meta_ads",
-    status: "degraded" as const,
-    lastSyncedAt: new Date(),
-  },
-  {
-    id: "3",
-    clientName: "Gamma Inc",
-    platform: "google_ads",
-    status: "broken" as const,
-    lastSyncedAt: null,
-  },
-];
+export default async function DashboardPage() {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
-const mockClients = [
-  {
-    id: "1",
-    name: "Acme Corp",
-    integrationCount: 3,
-    worstStatus: "healthy" as const,
-    lastReportDate: "May 1",
-  },
-  {
-    id: "2",
-    name: "Beta Agency",
-    integrationCount: 2,
-    worstStatus: "degraded" as const,
-    lastReportDate: "Apr 15",
-  },
-];
+  if (!session) redirect("/login");
 
-const mockReports = [
-  {
-    id: "1",
-    title: "Acme Corp — May 2026",
-    clientName: "Acme Corp",
-    status: "sent" as const,
-    sentAt: "May 1",
-    opened: true,
-    openCount: 3,
-  },
-  {
-    id: "2",
-    title: "Beta Agency — May 2026",
-    clientName: "Beta Agency",
-    status: "sent" as const,
-    sentAt: "May 1",
-    opened: false,
-    openCount: 0,
-  },
-  {
-    id: "3",
-    title: "Gamma Inc — May 2026",
-    clientName: "Gamma Inc",
-    status: "draft" as const,
-    sentAt: null,
-    opened: false,
-    openCount: 0,
-  },
-];
+  // Get user's org
+  const membership = await db
+    .select()
+    .from(orgMembers)
+    .where(eq(orgMembers.userId, session.user.id))
+    .limit(1)
+    .then((r) => r[0]);
 
-const mockAnomalies: AnomalyAlert[] = [
-  {
-    clientId: "1",
-    clientName: "Acme Corp",
-    platform: "ga4",
-    metricKey: "sessions",
-    previousValue: 12400,
-    currentValue: 8200,
-    deltaPercent: -33.9,
-    direction: "down",
-  },
-  {
-    clientId: "2",
-    clientName: "Beta Agency",
-    platform: "meta_ads",
-    metricKey: "spend",
-    previousValue: 4200,
-    currentValue: 6100,
-    deltaPercent: 45.2,
-    direction: "up",
-  },
-];
+  if (!membership) redirect("/onboarding");
 
-const brokenCount = mockHealth.filter((h) => h.status === "broken").length;
+  const tenantId = membership.organizationId;
 
-export default function DashboardPage() {
+  // Fetch all real data in parallel
+  const [stats, healthItems, recentReports, clientList] = await Promise.all([
+    getDashboardStats(tenantId),
+    getIntegrationHealth(tenantId),
+    getRecentReports(tenantId),
+    getClientHealthList(tenantId),
+  ]);
+
+  const firstName = session.user.name?.split(" ")[0] ?? "there";
+  const hour = new Date().getHours();
+  const greeting =
+    hour < 12 ? "Good morning" : hour < 17 ? "Good afternoon" : "Good evening";
+
   return (
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-xl font-bold text-gray-900">Dashboard</h1>
+        <h1 className="text-xl font-bold text-gray-900">
+          {greeting}, {firstName} 👋
+        </h1>
         <p className="text-sm text-gray-500">
           Your agency&apos;s marketing health at a glance
         </p>
       </div>
 
       {/* Alert banner */}
-      <AlertBanner count={brokenCount} />
+      <AlertBanner count={Number(stats.brokenCount)} />
 
       {/* Stat cards */}
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         <StatCard
           label="Clients"
-          value={12}
-          icon={<Users />}
+          value={Number(stats.clientCount)}
+          icon={Users}
         />
         <StatCard
           label="Reports sent"
-          value={48}
-          icon={<FileText />}
-          trend="up"
-          trendLabel="+8 this month"
+          value={Number(stats.reportCount)}
+          icon={FileText}
         />
         <StatCard
           label="Integrations"
-          value={34}
-          icon={<Plug />}
+          value={Number(stats.integrationCount)}
+          icon={Plug}
         />
         <StatCard
           label="Alerts"
-          value={brokenCount}
-          icon={<AlertTriangle />}
-          trend={brokenCount > 0 ? "down" : "neutral"}
-          trendLabel={brokenCount > 0 ? "Needs attention" : "All clear"}
+          value={Number(stats.brokenCount)}
+          icon={AlertTriangle}
+          trend={Number(stats.brokenCount) > 0 ? "down" : "neutral"}
+          trendLabel={
+            Number(stats.brokenCount) > 0 ? "Needs attention" : "All clear"
+          }
         />
       </div>
 
       {/* Two column grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Integration health */}
         <Card padding="none">
           <CardHeader className="px-6 pt-6">
             <CardTitle>Integration Health</CardTitle>
           </CardHeader>
           <div className="px-6 pb-6">
-            <HealthGrid items={mockHealth} />
+            <HealthGrid items={healthItems} />
           </div>
         </Card>
 
-        {/* Client health */}
         <Card padding="none">
           <CardHeader className="px-6 pt-6">
             <CardTitle>Clients</CardTitle>
           </CardHeader>
           <div className="px-6 pb-6">
-            <ClientHealthList clients={mockClients} />
+            <ClientHealthList clients={clientList} />
           </div>
         </Card>
       </div>
-
-      {/* Anomaly alerts */}
-      {mockAnomalies.length > 0 && (
-        <div>
-          <h2 className="text-sm font-semibold text-gray-700 mb-3">
-            Anomalies detected this week
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {mockAnomalies.map((anomaly, i) => (
-              <AnomalyCard key={i} anomaly={anomaly} />
-            ))}
-          </div>
-        </div>
-      )}
 
       {/* Recent reports */}
       <Card padding="none">
@@ -190,7 +121,7 @@ export default function DashboardPage() {
           <CardTitle>Recent Reports</CardTitle>
         </CardHeader>
         <div className="px-6 pb-6">
-          <RecentReports reports={mockReports} />
+          <RecentReports reports={recentReports} />
         </div>
       </Card>
     </div>
