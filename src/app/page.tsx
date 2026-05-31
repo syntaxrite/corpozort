@@ -25,13 +25,13 @@ import {
   Users,
 } from "lucide-react";
 
-// ─── UTILITY ───────────────────────────────────────────────────────────
+// ─── UTILITY ──────────────────────────────────────────────────────────
 
 function cn(...classes: (string | false | undefined | null)[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-// ─── ANIMATED COUNTER ────────────────────────────────────────────────────────
+// ─── ANIMATED COUNTER ───────────────────────────────────────────────────────
 
 function AnimatedNumber({ target, suffix = "" }: { target: number; suffix?: string }) {
   const [count, setCount] = useState(0);
@@ -59,7 +59,7 @@ function AnimatedNumber({ target, suffix = "" }: { target: number; suffix?: stri
   );
 }
 
-// ─── SECTION FADE IN ─────────────────────────────────────────────────────────
+// ─── SECTION FADE IN ───────────────────────────────────────────────────────
 
 function FadeIn({
   children,
@@ -93,7 +93,7 @@ function FadeIn({
   );
 }
 
-// ─── LIVE FEED TICKER ────────────────────────────────────────────────────────
+// ─── LIVE FEED TICKER ───────────────────────────────────────────────────────
 
 const feedEvents = [
   { msg: "GA4 synced — Acme Corp", color: "primary", pulse: false },
@@ -144,7 +144,7 @@ function LiveFeedTicker() {
   );
 }
 
-// ─── HERO WORD REVEAL ────────────────────────────────────────────────────────
+// ─── HERO WORD REVEAL ───────────────────────────────────────────────────────
 
 const line1 = ["Know", "when", "your", "clients'"];
 const line2 = ["campaigns", "break"];
@@ -196,7 +196,7 @@ function HeroHeadline() {
   );
 }
 
-// ─── DASHBOARD MOCKUP ────────────────────────────────────────────────────────
+// ─── DASHBOARD MOCKUP ───────────────────────────────────────────────────────
 
 function DashboardMockup() {
   const clients = [
@@ -301,7 +301,7 @@ function DashboardMockup() {
   );
 }
 
-// ─── NAV ─────────────────────────────────────────────────────────────
+// ─── NAV ───────────────────────────────────────────────────────────
 
 function Nav() {
   const [scrolled, setScrolled] = useState(false);
@@ -353,8 +353,8 @@ function Nav() {
               Sign in
             </Link>
             <Link
-              href="/signup"
-              className="inline-flex items-center gap-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold px-4 py-2 transition-all duration-150 active:scale-[0.97] shadow-sm"
+              href="/onboarding"
+              className="inline-flex items-center gap-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold px-4 py-2 transition-all duration-150 active:scale-[0.97]"
             >
               Get started <ArrowRight className="h-3.5 w-3.5" />
             </Link>
@@ -393,7 +393,7 @@ function Nav() {
               Sign in
             </Link>
             <Link
-              href="/signup"
+              href="/onboarding"
               className="inline-flex items-center justify-center gap-2 rounded-lg bg-indigo-600 text-white text-sm font-semibold px-4 py-2.5 shadow-sm"
             >
               Get started <ArrowRight className="h-3.5 w-3.5" />
@@ -405,7 +405,7 @@ function Nav() {
   );
 }
 
-// ─── DATA ────────────────────────────────────────────────────────────
+// ─── DATA ───────────────────────────────────────────────────────────
 
 const problems = [
   {
@@ -538,7 +538,7 @@ const faqs = [
   },
 ];
 
-// ─── FAQ COMPONENT ─────────────────────────────────────────────────────────
+// ─── FAQ COMPONENT ────────────────────────────────────────────────────────
 
 function FAQ() {
   const [open, setOpen] = useState<number | null>(null);
@@ -581,7 +581,7 @@ function FAQ() {
   );
 }
 
-// ─── PAGE ────────────────────────────────────────────────────────────
+// ─── PAGE ───────────────────────────────────────────────────────────
 
 export default function RootPage() {
   return (
@@ -634,7 +634,7 @@ export default function RootPage() {
             className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-5"
           >
             <Link
-              href="/signup"
+              href="/onboarding"
               className="group inline-flex items-center gap-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-7 py-3.5 text-base transition-all duration-200 active:scale-[0.97] shadow-md shadow-indigo-600/10"
             >
               Start monitoring free
@@ -951,7 +951,7 @@ export default function RootPage() {
                     ))}
                   </ul>
                   <Link
-                    href="/signup"
+                    href="/onboarding"
                     className={cn(
                       "w-full text-center rounded-xl py-2.5 text-sm font-semibold transition-all duration-150 active:scale-[0.97]",
                       plan.highlight
@@ -975,7 +975,7 @@ export default function RootPage() {
         </div>
       </section>
 
-      {/* ── FAQ ─────────────────────────────────────────────────────────── */}
+      {/* ── FAQ ──────────────────────────────────────────────────────────*/}
       <section className="max-w-2xl mx-auto px-6 py-28 text-center">
         <FadeIn className="text-center mb-12">
           <p className="text-xs font-bold text-indigo-600 uppercase tracking-[0.15em] mb-4">
@@ -1022,7 +1022,7 @@ export default function RootPage() {
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <Link
-              href="/signup"
+              href="/onboarding"
               className="group inline-flex items-center gap-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-8 py-4 text-base transition-all duration-200 shadow-md shadow-indigo-600/20"
             >
               Start monitoring free
@@ -1055,7 +1055,7 @@ export default function RootPage() {
                 { href: "#features", label: "Features" },
                 { href: "#pricing", label: "Pricing" },
                 { href: "/login", label: "Sign in" },
-                { href: "/signup", label: "Sign up" },
+                { href: "/onboarding", label: "Get started" },
               ].map((l) => (
                 <Link
                   key={l.label}
@@ -1072,4 +1072,3 @@ export default function RootPage() {
     </div>
   );
 }
-
