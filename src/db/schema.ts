@@ -10,7 +10,7 @@ import {
   pgEnum,
 } from "drizzle-orm/pg-core";
 
-// ─── Enums ────────────────────────────────────────────────────────────────────
+// ─── Enums ───────────────────────────────────────────────────────────[...]
 
 export const integrationPlatformEnum = pgEnum("integration_platform", [
   "ga4",
@@ -40,7 +40,7 @@ export const blockTypeEnum = pgEnum("block_type", [
 
 export const orgRoleEnum = pgEnum("org_role", ["owner", "member"]);
 
-// ─── Better Auth Tables ───────────────────────────────────────────────────────
+// ─── Better Auth Tables ──────────────────────────────────────────────────────[...]
 
 export const user = pgTable("users", {
   id: text("id").primaryKey(),
@@ -93,31 +93,33 @@ export const verification = pgTable("verification", {
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
-// ─── Organizations ────────────────────────────────────────────────────────────
+// ─── Organizations ────────────────────────────────────────────────────────[...]
 
 export const organizations = pgTable("organizations", {
   id: text("id").primaryKey(),
   name: text("name").notNull(),
   slug: text("slug").notNull().unique(),
   logoUrl: text("logo_url"),
+  metadata: text("metadata"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
-// ─── Org Members ─────────────────────────────────────────────────────────────
+// ─── Org Members ────────────────────────────────────────────────────────[...]
 
 export const orgMembers = pgTable("org_members", {
-  id: uuid("id").primaryKey().defaultRandom(),
-  orgId: text("org_id")
+  id: text("id").primaryKey(),
+  organizationId: text("organization_id")
     .notNull()
     .references(() => organizations.id, { onDelete: "cascade" }),
   userId: text("user_id")
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
-  role: orgRoleEnum("role").notNull().default("member"),
+  role: text("role").notNull().default("member"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
-// ─── Clients ──────────────────────────────────────────────────────────────────
+// ─── Clients ──────────────────────────────────────────────────────────[...]
 
 export const clients = pgTable("clients", {
   id: uuid("id").primaryKey().defaultRandom(),
@@ -129,7 +131,7 @@ export const clients = pgTable("clients", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
-// ─── Integrations ─────────────────────────────────────────────────────────────
+// ─── Integrations ────────────────────────────────────────────────────────[...]
 
 export const integrations = pgTable("integrations", {
   id: uuid("id").primaryKey().defaultRandom(),
@@ -148,7 +150,7 @@ export const integrations = pgTable("integrations", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
-// ─── Templates ────────────────────────────────────────────────────────────────
+// ─── Templates ─────────────────────────────────────────────────────────[...]
 
 export const templates = pgTable("templates", {
   id: uuid("id").primaryKey().defaultRandom(),
@@ -161,7 +163,7 @@ export const templates = pgTable("templates", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
-// ─── Reports ──────────────────────────────────────────────────────────────────
+// ─── Reports ──────────────────────────────────────────────────────────[...]
 
 export const reports = pgTable("reports", {
   id: uuid("id").primaryKey().defaultRandom(),
@@ -182,7 +184,7 @@ export const reports = pgTable("reports", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
-// ─── Report Blocks ────────────────────────────────────────────────────────────
+// ─── Report Blocks ────────────────────────────────────────────────────────[...]
 
 export const reportBlocks = pgTable("report_blocks", {
   id: uuid("id").primaryKey().defaultRandom(),
@@ -194,7 +196,7 @@ export const reportBlocks = pgTable("report_blocks", {
   configJson: jsonb("config_json").notNull().default("null"),
 });
 
-// ─── Metric Snapshots ─────────────────────────────────────────────────────────
+// ─── Metric Snapshots ───────────────────────────────────────────────────────[...]
 
 export const metricSnapshots = pgTable("metric_snapshots", {
   id: uuid("id").primaryKey().defaultRandom(),
@@ -214,7 +216,7 @@ export const metricSnapshots = pgTable("metric_snapshots", {
   fetchedAt: timestamp("fetched_at").defaultNow().notNull(),
 });
 
-// ─── Report Deliveries ────────────────────────────────────────────────────────
+// ─── Report Deliveries ──────────────────────────────────────────────────────[...]
 
 export const reportDeliveries = pgTable("report_deliveries", {
   id: uuid("id").primaryKey().defaultRandom(),
