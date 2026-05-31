@@ -189,7 +189,7 @@ export default function OnboardingPage() {
                       Create your first agency
                     </h2>
                     <p className="text-sm text-gray-500 mb-6">
-                      Start monitoring your clients' marketing in minutes.
+                      Start monitoring your clients&apos; marketing in minutes.
                     </p>
                     <div className="space-y-4">
                       <Input
